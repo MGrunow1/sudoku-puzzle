@@ -1,14 +1,19 @@
 import { useContext } from "react";
 import { SudokuContext } from "../contexts/SudokuContext";
 import ShowGrid from "./grid/ShowGrid";
+import SizeSelector from "./SizeSelector";
 import '../App.css'
 
 export default function Home() {
-  const { resizeSudoku } = useContext(SudokuContext);
-  resizeSudoku({subrows: 3, subcols: 4});
+  const { puzzleCreated } = useContext(SudokuContext);
+
   return (
     <div className="Home">
-      <ShowGrid />
+      {puzzleCreated ? (
+          <ShowGrid />
+        ) : (
+          <SizeSelector />
+        )}
     </div>
   );
 }
