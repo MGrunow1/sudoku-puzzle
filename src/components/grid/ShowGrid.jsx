@@ -1,8 +1,10 @@
+import { useContext } from "react";
+import { SudokuContext } from "../../contexts/SudokuContext";
 import './grid.css'
 import RepeatBigRows from "./RepeatBigRows";
 
 export default function ShowGrid() {
-    const puzzleSize = {subrows: 3, subcols: 4}
+    const { puzzleSize } = useContext(SudokuContext);
     return (
     <>
     <div className='Thickborder'>
