@@ -5,6 +5,7 @@ const SudokuContext = createContext([]);
 const SudokuProvider = (props) => {
     const [puzzleSolution, setPuzzleSolution] = useState([]);
     const [puzzleSize, setPuzzleSize] = useState({subrows: 0, subcols: 0});
+    const [puzzleCreated, setPuzzleCreated] = useState(false);
 
     const resizeSudoku = (size) => {
         const {subrows, subcols} = size;
@@ -15,10 +16,11 @@ const SudokuProvider = (props) => {
         }
         setPuzzleSolution(newPuzzle);
         setPuzzleSize(size);
+        setPuzzleCreated(true);
     }
     
     return (
-        <SudokuContext.Provider value={{puzzleSolution, puzzleSize, resizeSudoku }}>
+        <SudokuContext.Provider value={{puzzleSolution, puzzleSize, puzzleCreated, resizeSudoku }}>
             {props.children}
         </SudokuContext.Provider>
     )

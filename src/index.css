@@ -5,6 +5,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
+  /* set colors for dark mode */
   --app-back-color: black;
   --cell-back-color: black;
   --fore-color: white;
@@ -15,15 +16,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
 }
 
 body {
@@ -44,17 +36,19 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 2px solid;
+  border-color: var(--border-color);
   padding: 0.6em 1.2em;
+  margin: 5px 2px;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--cell-back-color);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #dfcd80;
 }
 button:focus,
 button:focus-visible {
@@ -68,10 +62,10 @@ button:focus-visible {
     --fore-color: black;
     --border-color: black;
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+  button:hover {
+    /* keep border color dark when in light mode */
+    border-color: black;
+    /* lighter version of app background */
+    background-color: #f7f4e0;
   }
 }
