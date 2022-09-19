@@ -1,8 +1,9 @@
+import './grid.css';
+
 export default function GridCell({spaceNumber}) {
     return (
-        <>
-        <div style={{margin: 10}}>
+        <div className='Cell'>
             {spaceNumber}
-        </div></>
+        </div>
     )
 }

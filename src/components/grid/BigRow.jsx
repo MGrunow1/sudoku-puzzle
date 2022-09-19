@@ -1,3 +1,4 @@
+import './grid.css';
 import SubGrid from "./SubGrid"
 
 export default function BigRow({times, bigRowNumber}) {
@@ -6,5 +7,5 @@ export default function BigRow({times, bigRowNumber}) {
         const subGridNumber = (bigRowNumber * times) + i;
         items.push(<SubGrid subGridNumber={subGridNumber} key={i} />);
     }
-    return (<div style={{display: 'flex', flexDirection: 'row'}}>{items}</div>);
+    return (<div className='Row'>{items}</div>);
 }

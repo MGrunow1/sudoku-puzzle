@@ -1,8 +1,9 @@
 import ShowGrid from "./grid/ShowGrid";
+import '../App.css'
 
 export default function Home() {
   return (
-    <div style={{display: 'flex', justifyContent: 'center'}}>
+    <div className="Home">
       <ShowGrid />
     </div>
   );
