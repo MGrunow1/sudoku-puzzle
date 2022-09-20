@@ -18,16 +18,24 @@ export default function SizeSelector() {
                 <button onClick={() => resizeSudoku({subrows: 3, subcols: 3})}>
                     9 (standard)
                 </button>
-                <button onClick={() => resizeSudoku({subrows: 4, subcols: 3})}>
+                <button
+                className="HideOnVerySmall"
+                onClick={() => resizeSudoku({subrows: 4, subcols: 3})}>
                     12 numbers
                 </button>
-                <button onClick={() => resizeSudoku({subrows: 3, subcols: 5})}>
+                <button
+                className="HideOnSmall"
+                onClick={() => resizeSudoku({subrows: 3, subcols: 5})}>
                     15 numbers
                 </button>
-                <button onClick={() => resizeSudoku({subrows: 4, subcols: 5})}>
+                <button
+                className="HideOnSmall"
+                onClick={() => resizeSudoku({subrows: 4, subcols: 5})}>
                     16 numbers
                 </button>
-                <button onClick={() => resizeSudoku({subrows: 4, subcols: 5})}>
+                <button
+                className="HideOnSmall"
+                onClick={() => resizeSudoku({subrows: 4, subcols: 5})}>
                     20 numbers
                 </button>
             </div>

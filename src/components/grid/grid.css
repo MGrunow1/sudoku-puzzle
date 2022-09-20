@@ -15,4 +15,13 @@
     border: 3px solid var(--border-color);
     width: fit-content;
 }
-  
+
+@media screen and (max-width: 425px) {
+    .Cell {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+    .Thickborder {
+        border-width: 2px;
+    }
+}
