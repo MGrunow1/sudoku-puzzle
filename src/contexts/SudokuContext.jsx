@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { scrambledCount } from "./utils";
 
 const SudokuContext = createContext([]);
 
@@ -15,12 +16,8 @@ const SudokuProvider = (props) => {
         let newPuzzle = [];
         // set its length to the total number of spaces
         newPuzzle.length = maxNumber * maxNumber;
-        // create a list from 1 to the maximum number
-        let columnValues = [];
-        for(let loop = 0; loop < maxNumber; loop++) {
-            columnValues.push(loop + 1);
-        }
-        //TODO scramble the list
+        // create a scrambled list from 1 to the maximum number
+        let columnValues = scrambledCount(maxNumber);
         // fill the new puzzle with values
         for(let colNumber = 0; colNumber<maxNumber; colNumber++) {
             const indices = getColIndices(colNumber, subcols, subrows);
