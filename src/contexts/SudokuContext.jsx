@@ -110,6 +110,12 @@ const SudokuProvider = (props) => {
         // Set its length to the total number of spaces
         newCellArray.length = maxNumber * maxNumber;
         newCellArray.fill('unset');
+        // Set the initial cell, randomly
+        if(Math.random() < .6) {
+            newCellArray[0] = 'hidden';
+        } else {
+            newCellArray[0] = 'cell'
+        }
         /* Loop through the array in a random order, to avoid
          having empty spaces bunched at the starting point */
         const scrambledIndices = scrambledCount(newCellArray.length);
