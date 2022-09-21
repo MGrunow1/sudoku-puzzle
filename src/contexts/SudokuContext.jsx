@@ -5,6 +5,7 @@ const SudokuContext = createContext([]);
 
 const SudokuProvider = (props) => {
     const [puzzleSolution, setPuzzleSolution] = useState([]);
+    const [cellType, setCellType] = useState([]);
     const [puzzleSize, setPuzzleSize] = useState({subrows: 0, subcols: 0});
     const [puzzleCreated, setPuzzleCreated] = useState(false);
 
@@ -59,13 +60,15 @@ const SudokuProvider = (props) => {
                 for(let index = 0; index<maxNumber; index++) {
                     // swap the values
                     const temp = newPuzzle[rowIndices1[index]];
-                    newPuzzle[rowIndices1[index]] = newPuzzle[rowIndices2[index]];                        newPuzzle[rowIndices2[index]] = temp;
+                    newPuzzle[rowIndices1[index]] = newPuzzle[rowIndices2[index]];
+                    newPuzzle[rowIndices2[index]] = temp;
                 }
             }
         }
         setPuzzleSolution(newPuzzle);
         setPuzzleSize(size);
         setPuzzleCreated(true);
+        hideCells(newPuzzle, subcols, subrows);
     }
 
     // get the list of index numbers for cells in a column
@@ -99,9 +102,61 @@ const SudokuProvider = (props) => {
         }
         return indexArray;
     }
+
+    const hideCells = (puzzle, subcols, subrows) => {
+        const maxNumber = subcols * subrows;
+        // Create the empty array
+        let newCellArray = [];
+        // Set its length to the total number of spaces
+        newCellArray.length = maxNumber * maxNumber;
+        newCellArray.fill('unset');
+        /* Loop through the array in a random order, to avoid
+         having empty spaces bunched at the starting point */
+        const scrambledIndices = scrambledCount(newCellArray.length);
+        for(const index of scrambledIndices) {
+            // Set only if it's not already set
+            if(newCellArray[index] === 'unset') {
+                const value = puzzle[index];
+                const subGridNumber = Math.floor(index / maxNumber);
+                const bigRow = Math.floor(subGridNumber / subrows);
+                const rowNumber = (Math.floor(index/subcols) % subrows) + (bigRow * subrows);
+                const rowIndices = getRowIndices(rowNumber, subcols, subrows);
+                let isNeeded = false;
+                // Loop through space in the row
+                for (const checkRow of rowIndices) {
+                    const bigCol = Math.floor(checkRow / maxNumber) % subrows;
+                    const colNumber = (checkRow % subcols) + (bigCol * subcols);
+                    const colIndices = getColIndices(colNumber, subcols, subrows);
+                    if(checkRow !== index && (newCellArray[checkRow] === 'hidden')) {
+                        let isSafe = false;
+                        /* Check the column for each space in the
+                        row, to see if another space keeps the value
+                        from being there instead */
+                        for (const checkCol of colIndices) {
+                            if((newCellArray[checkCol] !== 'hidden')
+                             && (puzzle[checkCol] === value)
+                             && (checkCol !== index)) {
+                                isSafe = true;
+                            }
+                        }
+                        if(isSafe === false) {
+                            isNeeded = true;
+                        }
+                    }
+                }
+                // Decide on cell type
+                if(isNeeded) {
+                    newCellArray[index] = 'clue';
+                } else {
+                    newCellArray[index] = 'hidden';
+                }
+            }
+        }
+    setCellType(newCellArray);
+    }
     
     return (
-        <SudokuContext.Provider value={{puzzleSolution, puzzleSize, puzzleCreated, resizeSudoku }}>
+        <SudokuContext.Provider value={{puzzleSolution, puzzleSize, puzzleCreated, cellType, resizeSudoku }}>
             {props.children}
         </SudokuContext.Provider>
     )
