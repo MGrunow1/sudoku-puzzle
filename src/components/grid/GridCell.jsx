@@ -3,11 +3,18 @@ import { SudokuContext } from "../../contexts/SudokuContext";
 import './grid.css';
 
 export default function GridCell({spaceNumber}) {
-    const { puzzleSolution } = useContext(SudokuContext);
+    const { cellType, puzzleSolution } = useContext(SudokuContext);
     const value = puzzleSolution[spaceNumber];
+    const type = cellType[spaceNumber];
     return (
         <div className='Cell'>
-            {value}
+            {type === 'clue' ? (
+            <>{value}</>
+            ) : (
+            <>
+            {null}
+            </>
+            )}
         </div>
     )
 }
