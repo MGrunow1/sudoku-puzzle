@@ -65,6 +65,30 @@ const SudokuProvider = (props) => {
                 }
             }
         }
+        // swap random columns, to avoid the row pattern repeating
+        for(let bigColNumber = 0; bigColNumber < subrows; bigColNumber++) {
+            if(subcols > 2) {
+                // choose 2 columns to swap
+                const randomCol1 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
+                let randomCol2 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
+                // choose a different second row if they're the same
+                while(randomCol1 === randomCol2) {
+                    randomCol2 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
+                }
+                swapCols(randomCol1, randomCol2);
+            }
+            // helper function to swap columns in the same row of subgrids
+            function swapCols(col1, col2) {
+                const colIndices1 = getColIndices(col1, subcols, subrows);
+                const colIndices2 = getColIndices(col2, subcols, subrows);
+                for(let index = 0; index<maxNumber; index++) {
+                    // swap the values
+                    const temp = newPuzzle[colIndices1[index]];
+                    newPuzzle[colIndices1[index]] = newPuzzle[colIndices2[index]];
+                    newPuzzle[colIndices2[index]] = temp;
+                }
+            }
+        }
         setPuzzleSolution(newPuzzle);
         setPuzzleSize(size);
         setPuzzleCreated(true);
