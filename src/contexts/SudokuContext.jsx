@@ -89,10 +89,19 @@ const SudokuProvider = (props) => {
                 }
             }
         }
-        setPuzzleSolution(newPuzzle);
-        setPuzzleSize(size);
+        if(Math.random() < .4) {
+            // rotate puzzle 90 degrees sometimes
+            newPuzzle = turnPuzzle(newPuzzle, subcols, subrows);
+            setPuzzleSolution(newPuzzle);
+            const turnedSize = {subrows: subcols, subcols: subrows};
+            setPuzzleSize(turnedSize);
+            hideCells(newPuzzle, subrows, subcols);
+        } else {
+            setPuzzleSolution(newPuzzle);
+            setPuzzleSize(size);
+            hideCells(newPuzzle, subcols, subrows);
+        }
         setPuzzleCreated(true);
-        hideCells(newPuzzle, subcols, subrows);
     }
 
     // get the list of index numbers for cells in a column
@@ -213,6 +222,24 @@ const SudokuProvider = (props) => {
             }
         }
     setCellType(newCellArray);
+    }
+
+    const turnPuzzle = (puzzle, subcols, subrows) => {
+        const maxNumber = subcols * subrows;
+        // Create the empty array
+        let turnedArray = [];
+        turnedArray.length = puzzle.length;
+        // Loop through the list of columns
+        for(let loop=0;loop<maxNumber;loop++) {
+            const colIndices = getColIndices(loop, subcols, subrows);
+            const rowIndices = getRowIndices(loop, subrows, subcols);
+            // take values from columns, put into rows
+            for(let index=0;index<maxNumber;index++) {
+                const value = puzzle[colIndices[index]];
+                turnedArray[rowIndices[index]] = value;
+            }
+        }
+        return turnedArray;
     }
     
     return (
