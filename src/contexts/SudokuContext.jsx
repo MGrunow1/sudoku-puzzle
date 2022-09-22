@@ -151,7 +151,8 @@ const SudokuProvider = (props) => {
                 const bigRow = Math.floor(subGridNumber / subrows);
                 const rowNumber = (Math.floor(index/subcols) % subrows) + (bigRow * subrows);
                 const rowIndices = getRowIndices(rowNumber, subcols, subrows);
-                let isNeeded = false;
+                let neededForRow = false;
+                let neededForCol = false;
                 // Loop through space in the row
                 for (const checkRow of rowIndices) {
                     const bigCol = Math.floor(checkRow / maxNumber) % subrows;
@@ -170,12 +171,41 @@ const SudokuProvider = (props) => {
                             }
                         }
                         if(isSafe === false) {
-                            isNeeded = true;
+                            neededForRow = true;
+                        }
+                        // for smaller puzzles, hide more cells
+                        if((maxNumber < 10) && neededForRow) {
+                            const bigCol2 = Math.floor(index / maxNumber) % subrows;
+                            const colNumber2 = (index % subcols) + (bigCol2 * subcols);
+                            const colIndices2 = getColIndices(colNumber2, subcols, subrows);
+                            // Loop through space in the column
+                            for (const checkCol of colIndices2) {
+                                let subGridNumber2 = Math.floor(checkCol / maxNumber);
+                                const bigRow2 = Math.floor(subGridNumber2 / subrows);
+                                const rowNumber2 = (Math.floor(index/subcols) % subrows) + (bigRow2 * subrows);
+                                const rowIndices2 = getRowIndices(rowNumber2, subcols, subrows);
+                                if(checkRow !== index && (newCellArray[checkCol] === 'hidden')) {
+                                    let isSafe = false;
+                                    /* Check the column for each space in the
+                                    row, to see if another space keeps the value
+                                    from being there instead */
+                                    for (const checkRow of rowIndices2) {
+                                        if((newCellArray[checkRow] !== 'hidden')
+                                         && (puzzle[checkRow] === value)
+                                         && (checkRow !== index)) {
+                                            isSafe = true;
+                                        }
+                                    }
+                                    if(isSafe === false) {
+                                        neededForCol = true;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
                 // Decide on cell type
-                if(isNeeded) {
+                if(neededForRow && neededForCol) {
                     newCellArray[index] = 'clue';
                 } else {
                     newCellArray[index] = 'hidden';
