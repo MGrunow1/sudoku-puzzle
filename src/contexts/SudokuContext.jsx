@@ -4,7 +4,7 @@ import { scrambledCount } from "./utils";
 const SudokuContext = createContext([]);
 
 const SudokuProvider = (props) => {
-    const [puzzleSolution, setPuzzleSolution] = useState([]);
+    const [userPuzzle, setUserPuzzle] = useState([]);
     const [cellType, setCellType] = useState([]);
     const [puzzleSize, setPuzzleSize] = useState({subrows: 0, subcols: 0});
     const [puzzleCreated, setPuzzleCreated] = useState(false);
@@ -92,12 +92,10 @@ const SudokuProvider = (props) => {
         if(Math.random() < .4) {
             // rotate puzzle 90 degrees sometimes
             newPuzzle = turnPuzzle(newPuzzle, subcols, subrows);
-            setPuzzleSolution(newPuzzle);
             const turnedSize = {subrows: subcols, subcols: subrows};
             setPuzzleSize(turnedSize);
             hideCells(newPuzzle, subrows, subcols);
         } else {
-            setPuzzleSolution(newPuzzle);
             setPuzzleSize(size);
             hideCells(newPuzzle, subcols, subrows);
         }
@@ -147,7 +145,7 @@ const SudokuProvider = (props) => {
         if(Math.random() < .6) {
             newCellArray[0] = 'hidden';
         } else {
-            newCellArray[0] = 'cell'
+            newCellArray[0] = 'clue'
         }
         /* Loop through the array in a random order, to avoid
          having empty spaces bunched at the starting point */
@@ -221,7 +219,14 @@ const SudokuProvider = (props) => {
                 }
             }
         }
+    // remove hidden cells
+    for(let index=0;index<puzzle.length;index++) {
+        if(newCellArray[index] === 'hidden') {
+            puzzle[index] = null;
+        }
+    }
     setCellType(newCellArray);
+    setUserPuzzle(puzzle);
     }
 
     const turnPuzzle = (puzzle, subcols, subrows) => {
@@ -243,7 +248,7 @@ const SudokuProvider = (props) => {
     }
     
     return (
-        <SudokuContext.Provider value={{puzzleSolution, puzzleSize, puzzleCreated, cellType, resizeSudoku }}>
+        <SudokuContext.Provider value={{ userPuzzle, cellType, puzzleSize, puzzleCreated, resizeSudoku }}>
             {props.children}
         </SudokuContext.Provider>
     )
