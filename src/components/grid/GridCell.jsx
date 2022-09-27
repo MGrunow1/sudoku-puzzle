@@ -7,14 +7,16 @@ export default function GridCell({spaceNumber}) {
     const value = userPuzzle[spaceNumber];
     const type = cellType[spaceNumber];
     return (
-        <div className='Cell'>
+        <>
             {type === 'clue' ? (
-            <>{value}</>
+            <button disabled className='Cell'>
+                {value}
+            </button>
             ) : (
-            <>
-            {value}
-            </>
+            <button className='Cell'>
+                {value}
+            </button>
             )}
-        </div>
+        </>
     )
 }
