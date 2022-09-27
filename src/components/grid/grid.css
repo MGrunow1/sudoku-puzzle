@@ -6,6 +6,16 @@
     width: 2.3rem;
     height: 2.3rem;
     padding: 3px;
+    font-size: 1.3em;
+}
+
+.Clue {
+    color: var(--fore-color);
+    font-weight: bold;
+}
+
+.Guess {
+    color: var(--fore-color);
 }
 
 .Row {

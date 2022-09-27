@@ -10,11 +10,15 @@ export default function GridCell({spaceNumber}) {
         <>
             {type === 'clue' ? (
             <button disabled className='Cell'>
-                {value}
+                <div className='Clue'>
+                    {value}
+                </div>
             </button>
             ) : (
             <button className='Cell'>
-                {value}
+                <div className='Guess'>
+                    {value}
+                </div>
             </button>
             )}
         </>
