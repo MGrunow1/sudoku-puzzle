@@ -14,6 +14,14 @@
 
 /* Hide button for grid sizes that
  would not fit on small screen */
+ .HideOnMedium {
+  display: none;
+} 
+
+ .HideOnMedium {
+  display: none;
+} 
+
 .HideOnSmall {
   display: none;
 }
@@ -29,7 +37,7 @@
 
 /* show buttons when screen will be
  large enough to show that size */
-@media screen and (min-width: 338px) {
+@media screen and (min-width: 474px) {
   .HideOnVerySmall {
     display: block;
   }
@@ -37,8 +45,17 @@
 
 /* show buttons when screen will be
  large enough to show that size */
-@media screen and (min-width: 425px) {
+@media screen and (min-width: 635px) {
   .HideOnSmall {
     display: block;
   }
 }
+
+/* show buttons when screen will be
+ large enough to show that size */
+ @media screen and (min-width: 815px) {
+  .HideOnMedium {
+    display: block;
+  }
+}
+
