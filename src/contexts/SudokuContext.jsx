@@ -208,10 +208,17 @@ const SudokuProvider = (props) => {
                                     }
                                 }
                             }
+                        } else {
+                            /* Assume needed for column for
+                            large puzzles. It's ok if not
+                            needed for row, then it will
+                            still be hidden. */
+                            neededForCol = true;
                         }
                     }
                 }
                 // Decide on cell type
+                console.log(neededForRow,neededForCol)
                 if(neededForRow && neededForCol) {
                     newCellArray[index] = 'clue';
                 } else {
@@ -219,6 +226,7 @@ const SudokuProvider = (props) => {
                 }
             }
         }
+        console.log(puzzle,newCellArray)
     // remove hidden cells
     for(let index=0;index<puzzle.length;index++) {
         if(newCellArray[index] === 'hidden') {
