@@ -6,6 +6,7 @@ const SudokuContext = createContext([]);
 const SudokuProvider = (props) => {
     const [puzzleSolution, setPuzzleSolution] = useState([]);
     const [cellType, setCellType] = useState([]);
+    const [puzzleAttempt, setPuzzleAttempt] = useState([]);
     const [puzzleSize, setPuzzleSize] = useState({subrows: 0, subcols: 0});
     const [puzzleCreated, setPuzzleCreated] = useState(false);
 
@@ -102,6 +103,22 @@ const SudokuProvider = (props) => {
             hideCells(newPuzzle, subcols, subrows);
         }
         setPuzzleCreated(true);
+    }
+
+    // Fill in array to store user guesses
+    // Use after hiding cells
+    const buildUserVersion = (puzzle, clueList) => {
+        let userVersion = [];
+        userVersion.length = puzzle.length;
+        // fill with null, to indicate no guess yet
+        userVersion = userVersion.fill(null);
+        // loop to fill in spots that have clues
+        for(let index=0;index<puzzle.length;index++) {
+            if(clueList[index] === 'clue') {
+                userVersion[index] = puzzle[index];
+            }
+        }
+        setPuzzleAttempt(userVersion);
     }
 
     // get the list of index numbers for cells in a column
@@ -222,6 +239,7 @@ const SudokuProvider = (props) => {
             }
         }
     setCellType(newCellArray);
+    buildUserVersion(puzzle, newCellArray)
     }
 
     const turnPuzzle = (puzzle, subcols, subrows) => {
@@ -243,7 +261,7 @@ const SudokuProvider = (props) => {
     }
     
     return (
-        <SudokuContext.Provider value={{puzzleSolution, puzzleSize, puzzleCreated, cellType, resizeSudoku }}>
+        <SudokuContext.Provider value={{puzzleSolution, puzzleAttempt, puzzleSize, puzzleCreated, cellType, resizeSudoku }}>
             {props.children}
         </SudokuContext.Provider>
     )
