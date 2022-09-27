@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { SudokuContext } from "../contexts/SudokuContext";
-import '../App.css'
+import { ButtonContainer, ButtonHiddenOnMedium, ButtonHiddenOnSmall, ButtonHiddenOnVerySmall } from "./MainStyles";
 
 export default function SizeSelector() {
     const { resizeSudoku } = useContext(SudokuContext);
@@ -8,7 +8,7 @@ export default function SizeSelector() {
     return (
         <div style={{display: 'block'}}>
             <h2>Choose size of puzzle:</h2>
-            <div className="ButtonContainer">
+            <ButtonContainer>
                 <button onClick={() => resizeSudoku({subrows: 2, subcols: 3})}>
                     6 numbers
                 </button>
@@ -18,27 +18,23 @@ export default function SizeSelector() {
                 <button onClick={() => resizeSudoku({subrows: 3, subcols: 3})}>
                     9 (standard)
                 </button>
-                <button
-                className="HideOnVerySmall"
+                <ButtonHiddenOnVerySmall
                 onClick={() => resizeSudoku({subrows: 4, subcols: 3})}>
                     12 numbers
-                </button>
-                <button
-                className="HideOnSmall"
+                </ButtonHiddenOnVerySmall>
+                <ButtonHiddenOnSmall
                 onClick={() => resizeSudoku({subrows: 3, subcols: 5})}>
                     15 numbers
-                </button>
-                <button
-                className="HideOnSmall"
+                </ButtonHiddenOnSmall>
+                <ButtonHiddenOnSmall
                 onClick={() => resizeSudoku({subrows: 4, subcols: 4})}>
                     16 numbers
-                </button>
-                <button
-                className="HideOnMedium"
+                </ButtonHiddenOnSmall>
+                <ButtonHiddenOnMedium
                 onClick={() => resizeSudoku({subrows: 4, subcols: 5})}>
                     20 numbers
-                </button>
-            </div>
+                </ButtonHiddenOnMedium>
+            </ButtonContainer>
         </div>
     )
 }

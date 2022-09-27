@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { SudokuContext } from "../../contexts/SudokuContext";
-import './grid.css'
+import { ThickBorder } from "./GridStyles";
 import RepeatBigRows from "./RepeatBigRows";
 
 export default function ShowGrid() {
@@ -8,9 +8,9 @@ export default function ShowGrid() {
 
     return (
     <>
-    <div className='Thickborder'>
+    <ThickBorder>
         <RepeatBigRows rows={puzzleSize.subrows} cols={puzzleSize.subcols}/>
-    </div>
+    </ThickBorder>
     </>
     )
 }

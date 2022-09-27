@@ -2,18 +2,18 @@ import { useContext } from "react";
 import { SudokuContext } from "../contexts/SudokuContext";
 import ShowGrid from "./grid/ShowGrid";
 import SizeSelector from "./SizeSelector";
-import '../App.css'
+import { CenteredContainer } from "./MainStyles";
 
 export default function Home() {
   const { puzzleCreated } = useContext(SudokuContext);
 
   return (
-    <div className="Home">
+    <CenteredContainer>
       {puzzleCreated ? (
           <ShowGrid />
         ) : (
           <SizeSelector />
         )}
-    </div>
+    </CenteredContainer>
   );
 }
