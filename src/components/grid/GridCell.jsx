@@ -3,8 +3,8 @@ import { SudokuContext } from "../../contexts/SudokuContext";
 import './grid.css';
 
 export default function GridCell({spaceNumber}) {
-    const { cellType, puzzleSolution } = useContext(SudokuContext);
-    const value = puzzleSolution[spaceNumber];
+    const { cellType, userPuzzle } = useContext(SudokuContext);
+    const value = userPuzzle[spaceNumber];
     const type = cellType[spaceNumber];
     return (
         <div className='Cell'>
@@ -12,7 +12,7 @@ export default function GridCell({spaceNumber}) {
             <>{value}</>
             ) : (
             <>
-            {null}
+            {value}
             </>
             )}
         </div>
