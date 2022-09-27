@@ -8,6 +8,16 @@ const SudokuProvider = (props) => {
     const [cellType, setCellType] = useState([]);
     const [puzzleSize, setPuzzleSize] = useState({subrows: 0, subcols: 0});
     const [puzzleCreated, setPuzzleCreated] = useState(false);
+    // Use -1 for no cell chosen, because index starts with 0
+    const [chosenCell, setChosenCell] = useState(-1);
+
+    const deselectCell = () => {
+        setChosenCell(-1);
+    }
+
+    const selectCell = (index) => {
+        setChosenCell(index);
+    }
 
     // set up new puzzle
     const resizeSudoku = (size) => {
@@ -218,7 +228,6 @@ const SudokuProvider = (props) => {
                     }
                 }
                 // Decide on cell type
-                console.log(neededForRow,neededForCol)
                 if(neededForRow && neededForCol) {
                     newCellArray[index] = 'clue';
                 } else {
@@ -226,7 +235,6 @@ const SudokuProvider = (props) => {
                 }
             }
         }
-        console.log(puzzle,newCellArray)
     // remove hidden cells
     for(let index=0;index<puzzle.length;index++) {
         if(newCellArray[index] === 'hidden') {
@@ -256,7 +264,15 @@ const SudokuProvider = (props) => {
     }
     
     return (
-        <SudokuContext.Provider value={{ userPuzzle, cellType, puzzleSize, puzzleCreated, resizeSudoku }}>
+        <SudokuContext.Provider value={{
+                userPuzzle,
+                cellType,
+                chosenCell,
+                puzzleSize,
+                puzzleCreated,
+                deselectCell,
+                resizeSudoku,
+                selectCell }}>
             {props.children}
         </SudokuContext.Provider>
     )
