@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const NumberButton = styled.button`
 margin: 3px;
 padding: 5px;
+min-width: 30px;
 `;
 
 export const NumberChooser = styled.div`

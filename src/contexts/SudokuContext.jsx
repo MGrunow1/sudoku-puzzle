@@ -8,6 +8,7 @@ const SudokuProvider = (props) => {
     const [cellType, setCellType] = useState([]);
     const [puzzleSize, setPuzzleSize] = useState({subrows: 0, subcols: 0});
     const [puzzleCreated, setPuzzleCreated] = useState(false);
+    const [optionList, setOptionList] = useState([]);
     // Use -1 for no cell chosen, because index starts with 0
     const [chosenCell, setChosenCell] = useState(-1);
 
@@ -109,6 +110,12 @@ const SudokuProvider = (props) => {
             setPuzzleSize(size);
             hideCells(newPuzzle, subcols, subrows);
         }
+        // set the list of number options
+        let numbers=[];
+        for(let loop=1;loop<=maxNumber;loop++) {
+            numbers.push(loop);
+        }
+        setOptionList(numbers);
         setPuzzleCreated(true);
     }
 
@@ -268,6 +275,7 @@ const SudokuProvider = (props) => {
                 userPuzzle,
                 cellType,
                 chosenCell,
+                optionList,
                 puzzleSize,
                 puzzleCreated,
                 deselectCell,
