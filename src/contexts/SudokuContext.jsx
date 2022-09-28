@@ -119,6 +119,21 @@ const SudokuProvider = (props) => {
         setPuzzleCreated(true);
     }
 
+    // calculate column that a cell is in
+    const getCellCol = (index, subcols=puzzleSize.subcols, subrows=puzzleSize.subrows) => {
+        const bigCol = Math.floor(index / (subcols * subrows)) % subrows;
+        const colNumber = (index % subcols) + (bigCol * subcols);
+        return colNumber;
+    }
+
+    // calculate row that a cell is in
+    const getCellRow = (index, subcols=puzzleSize.subcols, subrows=puzzleSize.subrows) => {
+        const subGridNumber = Math.floor(index / (subcols * subrows));
+        const bigRow = Math.floor(subGridNumber / subrows);
+        const rowNumber = (Math.floor(index/subcols) % subrows) + (bigRow * subrows);
+        return rowNumber;
+    }
+
     // get the list of index numbers for cells in a column
     const getColIndices = (colNum, subcols=puzzleSize.subcols, subrows=puzzleSize.subrows) => {
         const subGridSize = subcols * subrows;
@@ -171,16 +186,13 @@ const SudokuProvider = (props) => {
             // Set only if it's not already set
             if(newCellArray[index] === 'unset') {
                 const value = puzzle[index];
-                const subGridNumber = Math.floor(index / maxNumber);
-                const bigRow = Math.floor(subGridNumber / subrows);
-                const rowNumber = (Math.floor(index/subcols) % subrows) + (bigRow * subrows);
+                const rowNumber = getCellRow(index, subcols, subrows);
                 const rowIndices = getRowIndices(rowNumber, subcols, subrows);
                 let neededForRow = false;
                 let neededForCol = false;
                 // Loop through space in the row
                 for (const checkRow of rowIndices) {
-                    const bigCol = Math.floor(checkRow / maxNumber) % subrows;
-                    const colNumber = (checkRow % subcols) + (bigCol * subcols);
+                    const colNumber = getCellCol(checkRow, subcols, subrows);
                     const colIndices = getColIndices(colNumber, subcols, subrows);
                     if(checkRow !== index && (newCellArray[checkRow] === 'hidden')) {
                         let isSafe = false;
@@ -199,14 +211,11 @@ const SudokuProvider = (props) => {
                         }
                         // for smaller puzzles, hide more cells
                         if((maxNumber < 10) && neededForRow) {
-                            const bigCol2 = Math.floor(index / maxNumber) % subrows;
-                            const colNumber2 = (index % subcols) + (bigCol2 * subcols);
+                            const colNumber2 = getCellCol(index, subcols, subrows);
                             const colIndices2 = getColIndices(colNumber2, subcols, subrows);
                             // Loop through space in the column
                             for (const checkCol of colIndices2) {
-                                let subGridNumber2 = Math.floor(checkCol / maxNumber);
-                                const bigRow2 = Math.floor(subGridNumber2 / subrows);
-                                const rowNumber2 = (Math.floor(index/subcols) % subrows) + (bigRow2 * subrows);
+                                const rowNumber2 = getCellRow(checkCol, subcols, subrows);
                                 const rowIndices2 = getRowIndices(rowNumber2, subcols, subrows);
                                 if(checkRow !== index && (newCellArray[checkCol] === 'hidden')) {
                                     let isSafe = false;
