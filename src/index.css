@@ -8,6 +8,7 @@
   /* set colors for dark mode */
   --app-back-color: black;
   --cell-back-color: black;
+  --modal-back-color: #232e95;
   --fore-color: white;
   --border-color: #cccccc;
 
@@ -59,6 +60,7 @@ button:focus-visible {
   :root {
     --app-back-color: #dfcd80;
     --cell-back-color: white;
+    --modal-back-color: #8091df;
     --fore-color: black;
     --border-color: black;
   }
