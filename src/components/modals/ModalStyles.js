@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+export const ChoiceButton = styled.button`
+margin: 3px;
+padding: 5px;
+min-width: 30px;
+`;
+
 export const CloseButton = styled.button`
 margin: 3px;
 padding: 5px 40px;
@@ -13,13 +19,7 @@ z-index: 2;
 top: ${(props) => props.top || "0px"};
 `;
 
-export const NumberButton = styled.button`
-margin: 3px;
-padding: 5px;
-min-width: 30px;
-`;
-
-export const NumberChooser = styled.div`
+export const VisibleModal = styled.div`
 position: relative;
 ${(props) => props.css};
 z-index: 4;
@@ -31,4 +31,11 @@ display: flex;
 flex-flow: row wrap;
 justify-content: space-around;
 max-width: 150px;
+`;
+
+export const WarningBox = styled.div`
+margin: 7px;
+background-color: var(--cell-back-color);
+border-radius: 8px;
+font-weight: bold;
 `;

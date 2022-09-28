@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { SudokuContext } from "../../contexts/SudokuContext";
-import { CloseButton, NumberButton, NumberChooser } from "./ModalStyles"
+import { ChoiceButton, CloseButton, VisibleModal } from "./ModalStyles"
 
 export default function ChoiceList({setWarning}) {
     const { chosenCell, deselectCell, optionList, tryCellValue } = useContext(SudokuContext);
@@ -19,21 +19,21 @@ export default function ChoiceList({setWarning}) {
         }
     }
     return (
-        <NumberChooser
+        <VisibleModal
             css={chosenCell.horizontal}
             onClick={dontCloseModal}>
                 {optionList.map ((option, index) => (
-                    <NumberButton key={index} onClick={() => chooseOption(option)}>
+                    <ChoiceButton key={index} onClick={() => chooseOption(option)}>
                         {option}
-                    </NumberButton>
+                    </ChoiceButton>
                 ))}
-                <NumberButton onClick={() => chooseOption(null)}>
+                <ChoiceButton onClick={() => chooseOption(null)}>
                     empty
-                </NumberButton>
+                </ChoiceButton>
                 <CloseButton
                 onClick={() => deselectCell()}>
                     cancel
                 </CloseButton>
-        </NumberChooser>
+        </VisibleModal>
     )
 }
