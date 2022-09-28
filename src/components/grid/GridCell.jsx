@@ -1,20 +1,23 @@
 import { useContext } from "react";
 import { SudokuContext } from "../../contexts/SudokuContext";
-import './grid.css';
+import { CellButton } from "./GridStyles";
 
 export default function GridCell({spaceNumber}) {
-    const { cellType, userPuzzle } = useContext(SudokuContext);
+    const { cellType, userPuzzle, selectCell } = useContext(SudokuContext);
     const value = userPuzzle[spaceNumber];
     const type = cellType[spaceNumber];
+
     return (
-        <div className='Cell'>
+        <>
             {type === 'clue' ? (
-            <>{value}</>
+            <CellButton disabled={true}>
+                {value}
+            </CellButton>
             ) : (
-            <>
-            {value}
-            </>
+            <CellButton onClick={() => selectCell(spaceNumber)}>
+                {value}
+            </CellButton>
             )}
-        </div>
+        </>
     )
 }

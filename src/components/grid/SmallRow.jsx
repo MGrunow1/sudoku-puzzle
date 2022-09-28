@@ -1,4 +1,4 @@
-import './grid.css';
+import { FlexRow } from "./GridStyles";
 import GridCell from "./GridCell";
 
 export default function SmallRow({smallRowNumber, subGridNumber, rows, cols}) {
@@ -7,5 +7,5 @@ export default function SmallRow({smallRowNumber, subGridNumber, rows, cols}) {
         const spaceNumber = (subGridNumber * rows * cols) + (smallRowNumber * cols) + i;
         items.push(<GridCell spaceNumber={spaceNumber} key={i} />);
     }
-    return (<div className='Row'>{items}</div>);
+    return (<FlexRow>{items}</FlexRow>);
 }

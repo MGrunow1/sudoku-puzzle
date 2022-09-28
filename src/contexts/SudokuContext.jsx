@@ -8,6 +8,32 @@ const SudokuProvider = (props) => {
     const [cellType, setCellType] = useState([]);
     const [puzzleSize, setPuzzleSize] = useState({subrows: 0, subcols: 0});
     const [puzzleCreated, setPuzzleCreated] = useState(false);
+    const [optionList, setOptionList] = useState([]);
+    // Use -1 for no cell chosen, because index starts with 0
+    const [chosenCell, setChosenCell] = useState({index: -1, moveTop: '0', horizontal: ''});
+
+    const deselectCell = () => {
+        setChosenCell(-1);
+    }
+
+    const selectCell = (index) => {
+        const cellCol = getCellCol(index);
+        const cellRow = getCellRow(index);
+        const moveTop = (cellRow * 25) + 55;
+        let horizontalCSS = '';
+        let horizontal = (cellCol - (puzzleSize.subcols * puzzleSize.subrows)/2);
+        horizontal = horizontal * 29;
+        if(horizontal<0) {
+            horizontalCSS = 'right: ';
+            horizontal = -horizontal;
+            horizontalCSS = horizontalCSS + horizontal.toString() + 'px;'
+        } else {
+            horizontalCSS = 'left: ';
+            horizontalCSS = horizontalCSS + horizontal.toString() + 'px;'
+        }
+        const cellInfo = {index: index, moveTop: `${moveTop}px`, horizontal: horizontalCSS};
+        setChosenCell(cellInfo);
+    }
 
     // set up new puzzle
     const resizeSudoku = (size) => {
@@ -99,7 +125,28 @@ const SudokuProvider = (props) => {
             setPuzzleSize(size);
             hideCells(newPuzzle, subcols, subrows);
         }
+        // set the list of number options
+        let numbers=[];
+        for(let loop=1;loop<=maxNumber;loop++) {
+            numbers.push(loop);
+        }
+        setOptionList(numbers);
         setPuzzleCreated(true);
+    }
+
+    // calculate column that a cell is in
+    const getCellCol = (index, subcols=puzzleSize.subcols, subrows=puzzleSize.subrows) => {
+        const bigCol = Math.floor(index / (subcols * subrows)) % subrows;
+        const colNumber = (index % subcols) + (bigCol * subcols);
+        return colNumber;
+    }
+
+    // calculate row that a cell is in
+    const getCellRow = (index, subcols=puzzleSize.subcols, subrows=puzzleSize.subrows) => {
+        const subGridNumber = Math.floor(index / (subcols * subrows));
+        const bigRow = Math.floor(subGridNumber / subrows);
+        const rowNumber = (Math.floor(index/subcols) % subrows) + (bigRow * subrows);
+        return rowNumber;
     }
 
     // get the list of index numbers for cells in a column
@@ -154,16 +201,13 @@ const SudokuProvider = (props) => {
             // Set only if it's not already set
             if(newCellArray[index] === 'unset') {
                 const value = puzzle[index];
-                const subGridNumber = Math.floor(index / maxNumber);
-                const bigRow = Math.floor(subGridNumber / subrows);
-                const rowNumber = (Math.floor(index/subcols) % subrows) + (bigRow * subrows);
+                const rowNumber = getCellRow(index, subcols, subrows);
                 const rowIndices = getRowIndices(rowNumber, subcols, subrows);
                 let neededForRow = false;
                 let neededForCol = false;
                 // Loop through space in the row
                 for (const checkRow of rowIndices) {
-                    const bigCol = Math.floor(checkRow / maxNumber) % subrows;
-                    const colNumber = (checkRow % subcols) + (bigCol * subcols);
+                    const colNumber = getCellCol(checkRow, subcols, subrows);
                     const colIndices = getColIndices(colNumber, subcols, subrows);
                     if(checkRow !== index && (newCellArray[checkRow] === 'hidden')) {
                         let isSafe = false;
@@ -182,14 +226,11 @@ const SudokuProvider = (props) => {
                         }
                         // for smaller puzzles, hide more cells
                         if((maxNumber < 10) && neededForRow) {
-                            const bigCol2 = Math.floor(index / maxNumber) % subrows;
-                            const colNumber2 = (index % subcols) + (bigCol2 * subcols);
+                            const colNumber2 = getCellCol(index, subcols, subrows);
                             const colIndices2 = getColIndices(colNumber2, subcols, subrows);
                             // Loop through space in the column
                             for (const checkCol of colIndices2) {
-                                let subGridNumber2 = Math.floor(checkCol / maxNumber);
-                                const bigRow2 = Math.floor(subGridNumber2 / subrows);
-                                const rowNumber2 = (Math.floor(index/subcols) % subrows) + (bigRow2 * subrows);
+                                const rowNumber2 = getCellRow(checkCol, subcols, subrows);
                                 const rowIndices2 = getRowIndices(rowNumber2, subcols, subrows);
                                 if(checkRow !== index && (newCellArray[checkCol] === 'hidden')) {
                                     let isSafe = false;
@@ -208,6 +249,12 @@ const SudokuProvider = (props) => {
                                     }
                                 }
                             }
+                        } else {
+                            /* Assume needed for column for
+                            large puzzles. It's ok if not
+                            needed for row, then it will
+                            still be hidden. */
+                            neededForCol = true;
                         }
                     }
                 }
@@ -248,7 +295,16 @@ const SudokuProvider = (props) => {
     }
     
     return (
-        <SudokuContext.Provider value={{ userPuzzle, cellType, puzzleSize, puzzleCreated, resizeSudoku }}>
+        <SudokuContext.Provider value={{
+                userPuzzle,
+                cellType,
+                chosenCell,
+                optionList,
+                puzzleSize,
+                puzzleCreated,
+                deselectCell,
+                resizeSudoku,
+                selectCell }}>
             {props.children}
         </SudokuContext.Provider>
     )
