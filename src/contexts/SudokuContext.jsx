@@ -13,7 +13,7 @@ const SudokuProvider = (props) => {
     const [chosenCell, setChosenCell] = useState({index: -1, moveTop: '0', horizontal: ''});
 
     const deselectCell = () => {
-        setChosenCell(-1);
+        setChosenCell({index: -1, moveTop: '0', horizontal: ''});
     }
 
     const selectCell = (index) => {
@@ -181,6 +181,78 @@ const SudokuProvider = (props) => {
         return indexArray;
     }
 
+    const tryCellValue = (value) =>  {
+        // Test for match if the input isn't blank
+        if(value) {
+            let rowSafe = true;
+            let colSafe = true;
+            let subgridSafe = true;
+            const rowNumber = getCellRow(chosenCell.index);
+            const rowIndices = getRowIndices(rowNumber);
+            // Loop through the row
+            for(const checkRow of rowIndices) {
+                if(checkRow !== chosenCell.index && (userPuzzle[checkRow] === value)) {
+                    rowSafe = false;
+                    if(cellType[checkRow] === 'clue') {
+                        // If it's clue, it can't be changed
+                        // Set warning and quit
+                        return 'A space in this row already has that number in it, and it cannot be changed!';
+                    }                    
+                }
+            }
+            // Loop through the column
+            const colNumber = getCellCol(chosenCell.index);
+            const colIndices = getColIndices(colNumber);
+            for (const checkCol of colIndices) {
+                if(checkCol !== chosenCell.index && (userPuzzle[checkCol] === value)) {
+                    colSafe = false;
+                    if(cellType[checkCol] === 'clue') {
+                        // If it's clue, it can't be changed
+                        // Set warning and quit
+                        return 'A space in this column already has that number in it, and it cannot be changed!';
+                    }
+                }
+            }
+            // Loop through the subgrid (box)
+            const subGridNumber = Math.floor(chosenCell.index / (puzzleSize.subcols * puzzleSize.subrows));
+            const min = subGridNumber * (puzzleSize.subcols * puzzleSize.subrows);
+            const max = min + (puzzleSize.subcols * puzzleSize.subrows);
+            for(let checkGrid=min;checkGrid<max;checkGrid++) {
+                if(checkGrid !== chosenCell.index && (userPuzzle[checkGrid] === value)) {
+                    subgridSafe = false;
+                    if(cellType[checkGrid] === 'clue') {
+                        // If it's clue, it can't be changed
+                        // Set warning and quit
+                        return 'A space in this box already has that number in it, and it cannot be changed!';
+                    }                   
+                }
+            }
+            // warnings
+            if(!rowSafe && (!colSafe && !subgridSafe)) {
+                // Set warning and quit
+                return 'Spaces in this row, column, and box already have that number in it!';
+            }
+            if(!rowSafe || (!colSafe || !subgridSafe)) {
+                let place = '';
+                if(!rowSafe) {
+                    place='row';
+                }
+                if(!colSafe) {
+                    place='column';
+                }
+                if(!subgridSafe) {
+                    place='box';
+                }
+                return `A space in this ${place} has that number in it!`;
+            }
+        }
+        let newPuzzle = [];
+        newPuzzle = userPuzzle;
+        newPuzzle[chosenCell.index] = value;
+        setUserPuzzle(newPuzzle);
+        return 'safe';
+    }
+
     const hideCells = (puzzle, subcols, subrows) => {
         const maxNumber = subcols * subrows;
         // Create the empty array
@@ -304,7 +376,8 @@ const SudokuProvider = (props) => {
                 puzzleCreated,
                 deselectCell,
                 resizeSudoku,
-                selectCell }}>
+                selectCell,
+                tryCellValue }}>
             {props.children}
         </SudokuContext.Provider>
     )

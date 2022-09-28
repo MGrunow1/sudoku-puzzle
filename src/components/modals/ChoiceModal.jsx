@@ -1,21 +1,35 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SudokuContext } from "../../contexts/SudokuContext";
-import { ModalBackground, NumberButton, NumberChooser } from "./ModalStyles"
+import { ModalBackground } from "./ModalStyles"
+import ChoiceList from "./ChoiceList";
+import ErrorNotifier from "./ErrorNotifier";
 
 export default function ChoiceModal() {
-    const { chosenCell, optionList } = useContext(SudokuContext);
+    const { chosenCell, deselectCell } = useContext(SudokuContext);
+    const [choiceWarning, setChoiceWarning] = useState('none');
+    const [currentIndex, setCurrentIndex] = useState(-1)
+    
+    useEffect(() => {
+        // Update if cell choice changes
+        if(chosenCell.index !== currentIndex) {
+            setChoiceWarning('none');
+            setCurrentIndex(chosenCell.index)
+        }
+      }, [chosenCell, currentIndex]);
 
     return (
-        <ModalBackground top={chosenCell.moveTop}>
-            <NumberChooser css={chosenCell.horizontal}>
-        {optionList.map ((option, index) => (
-            <NumberButton key={index}>
-                {option}
-            </NumberButton>
-        ))}
-        <NumberButton>empty</NumberButton>
-        <NumberButton>cancel</NumberButton>
-    </NumberChooser>
+        <ModalBackground
+        top={chosenCell.moveTop}
+        onClick={() => deselectCell()}>
+            {choiceWarning === 'none' ? (
+                <ChoiceList setWarning={setChoiceWarning} />
+            ) : (
+                <ErrorNotifier
+                    warning={choiceWarning}
+                    setWarning={setChoiceWarning}
+                    index={chosenCell.index}
+                />
+            )}
         </ModalBackground>
     )
 }
