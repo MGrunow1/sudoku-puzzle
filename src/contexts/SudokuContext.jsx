@@ -10,14 +10,29 @@ const SudokuProvider = (props) => {
     const [puzzleCreated, setPuzzleCreated] = useState(false);
     const [optionList, setOptionList] = useState([]);
     // Use -1 for no cell chosen, because index starts with 0
-    const [chosenCell, setChosenCell] = useState(-1);
+    const [chosenCell, setChosenCell] = useState({index: -1, moveTop: '0', horizontal: ''});
 
     const deselectCell = () => {
         setChosenCell(-1);
     }
 
     const selectCell = (index) => {
-        setChosenCell(index);
+        const cellCol = getCellCol(index);
+        const cellRow = getCellRow(index);
+        const moveTop = (cellRow * 25) + 55;
+        let horizontalCSS = '';
+        let horizontal = (cellCol - (puzzleSize.subcols * puzzleSize.subrows)/2);
+        horizontal = horizontal * 29;
+        if(horizontal<0) {
+            horizontalCSS = 'right: ';
+            horizontal = -horizontal;
+            horizontalCSS = horizontalCSS + horizontal.toString() + 'px;'
+        } else {
+            horizontalCSS = 'left: ';
+            horizontalCSS = horizontalCSS + horizontal.toString() + 'px;'
+        }
+        const cellInfo = {index: index, moveTop: `${moveTop}px`, horizontal: horizontalCSS};
+        setChosenCell(cellInfo);
     }
 
     // set up new puzzle

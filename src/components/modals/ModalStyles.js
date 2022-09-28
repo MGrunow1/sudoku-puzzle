@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+export const ModalBackground = styled.div`
+border: 100px transparent; /* for clicking to close */
+position: absolute;
+z-index: 2;
+top: ${(props) => props.top || "0px"};
+`;
+
 export const NumberButton = styled.button`
 margin: 3px;
 padding: 5px;
@@ -7,8 +14,9 @@ min-width: 30px;
 `;
 
 export const NumberChooser = styled.div`
-position: absolute;
-z-index: 2;
+position: relative;
+${(props) => props.css};
+z-index: 4;
 border: 1px solid var(--border-color);
 border-radius: 8px;
 background-color: var(--modal-back-color);

@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import { SudokuContext } from "../../contexts/SudokuContext";
-import { NumberButton, NumberChooser } from "./ModalStyles"
+import { ModalBackground, NumberButton, NumberChooser } from "./ModalStyles"
 
 export default function ChoiceModal() {
-    const { optionList } = useContext(SudokuContext);
+    const { chosenCell, optionList } = useContext(SudokuContext);
 
     return (
-    <NumberChooser>
+        <ModalBackground top={chosenCell.moveTop}>
+            <NumberChooser css={chosenCell.horizontal}>
         {optionList.map ((option, index) => (
             <NumberButton key={index}>
                 {option}
@@ -15,5 +16,6 @@ export default function ChoiceModal() {
         <NumberButton>empty</NumberButton>
         <NumberButton>cancel</NumberButton>
     </NumberChooser>
+        </ModalBackground>
     )
 }

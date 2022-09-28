@@ -12,7 +12,7 @@ export default function ShowGrid() {
     <ThickBorder>
         <RepeatBigRows rows={puzzleSize.subrows} cols={puzzleSize.subcols}/>
     </ThickBorder>
-    {chosenCell >= 0 && (<ChoiceModal />)}
+    {chosenCell.index >= 0 && (<ChoiceModal />)}
     </>
     )
 }
