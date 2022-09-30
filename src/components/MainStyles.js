@@ -11,7 +11,7 @@ max-width: 500px;
  large enough for that size grid */
 export const ButtonHiddenOnMedium = styled.button`
 display: none;
-@media (min-width: 815px) {
+@media (min-width: 780px) {
     display: block
 }`;
 
