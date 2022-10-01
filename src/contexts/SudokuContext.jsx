@@ -19,7 +19,7 @@ const SudokuProvider = (props) => {
     const selectCell = (index) => {
         const cellCol = getCellCol(index);
         const cellRow = getCellRow(index);
-        const moveTop = (cellRow * 25) + 55;
+        const moveTop = (cellRow * 27) + 60;
         let horizontalCSS = '';
         let horizontal = (cellCol - (puzzleSize.subcols * puzzleSize.subrows)/2);
         if(horizontal<0) {
