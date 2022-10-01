@@ -19,16 +19,71 @@ const SudokuProvider = (props) => {
     const selectCell = (index) => {
         const cellCol = getCellCol(index);
         const cellRow = getCellRow(index);
-        const moveTop = (cellRow * 25) + 55;
+        const moveTop = (cellRow * 27) + 60;
         let horizontalCSS = '';
         let horizontal = (cellCol - (puzzleSize.subcols * puzzleSize.subrows)/2);
-        horizontal = horizontal * 29;
         if(horizontal<0) {
             horizontalCSS = 'right: ';
             horizontal = -horizontal;
+            let multiplier = 30;
+            // choose amount based on puzzle size
+            switch(puzzleSize.subcols * puzzleSize.subrows) {
+                case 6:
+                    multiplier = 12;
+                    break;
+                case 8:
+                    multiplier = 19;
+                    break;
+                case 9:
+                    multiplier = 21;
+                    break;
+                case 12:
+                    multiplier = 26;
+                    break;
+                case 15:
+                    multiplier = 28;
+                    break;
+                case 16:
+                    multiplier = 29;
+                    break;
+                case 20:
+                    multiplier = 30;
+                    break;
+                default:
+                    // 
+            }
+            horizontal = horizontal * multiplier;
             horizontalCSS = horizontalCSS + horizontal.toString() + 'px;'
         } else {
             horizontalCSS = 'left: ';
+            let multiplier = 30;
+            // choose amount based on puzzle size
+            switch(puzzleSize.subcols * puzzleSize.subrows) {
+                case 6:
+                    multiplier = 19;
+                    break;
+                case 8:
+                    multiplier = 25;
+                    break;
+                case 9:
+                    multiplier = 26;
+                    break;
+                case 12:
+                    multiplier = 30;
+                    break;
+                case 15:
+                    multiplier = 31;
+                    break;
+                case 16:
+                    multiplier = 32;
+                    break;
+                case 20:
+                    multiplier = 34;
+                    break;
+                default:
+                    // 
+            }
+            horizontal = horizontal * multiplier;
             horizontalCSS = horizontalCSS + horizontal.toString() + 'px;'
         }
         const cellInfo = {index: index, moveTop: `${moveTop}px`, horizontal: horizontalCSS};
