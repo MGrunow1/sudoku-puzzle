@@ -5,7 +5,7 @@ import './App.css'
 function App() {
   return (
     <SudokuProvider>
-      <h1>Sudoku Puzzle Generator</h1>
+      <h1>Sudoku Puzzle</h1>
       <div className="App">
         <Home />
       </div>
