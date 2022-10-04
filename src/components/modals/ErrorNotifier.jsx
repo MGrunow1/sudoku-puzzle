@@ -14,12 +14,10 @@ export default function ErrorNotifier({warning, setWarning}) {
             css={chosenCell.horizontal}
             onClick={dontCloseModal}>
                 <WarningBox>{warning}</WarningBox>
-                <ChoiceButton
-                onClick={() => setWarning('none')}>
+                <ChoiceButton type="button" onClick={() => setWarning('none')}>
                     try again
                 </ChoiceButton>
-                <CloseButton
-                onClick={() => deselectCell()}>
+                <CloseButton type="button" onClick={() => deselectCell()}>
                     cancel
                 </CloseButton>
         </VisibleModal>

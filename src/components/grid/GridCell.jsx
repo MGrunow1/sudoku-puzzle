@@ -10,11 +10,11 @@ export default function GridCell({spaceNumber}) {
     return (
         <>
             {type === 'clue' ? (
-            <CellButton disabled={true}>
+            <CellButton type="button" disabled={true}>
                 {value}
             </CellButton>
             ) : (
-            <CellButton onClick={() => selectCell(spaceNumber)}>
+            <CellButton type="button" onClick={() => selectCell(spaceNumber)}>
                 {value}
             </CellButton>
             )}
