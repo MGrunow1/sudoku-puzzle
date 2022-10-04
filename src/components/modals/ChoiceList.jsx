@@ -23,15 +23,14 @@ export default function ChoiceList({setWarning}) {
             css={chosenCell.horizontal}
             onClick={dontCloseModal}>
                 {optionList.map ((option, index) => (
-                    <ChoiceButton key={index} onClick={() => chooseOption(option)}>
+                    <ChoiceButton type="button" key={index} onClick={() => chooseOption(option)}>
                         {option}
                     </ChoiceButton>
                 ))}
-                <ChoiceButton onClick={() => chooseOption(null)}>
+                <ChoiceButton type="button" onClick={() => chooseOption(null)}>
                     empty
                 </ChoiceButton>
-                <CloseButton
-                onClick={() => deselectCell()}>
+                <CloseButton type="button" onClick={() => deselectCell()}>
                     cancel
                 </CloseButton>
         </VisibleModal>

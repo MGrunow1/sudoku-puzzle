@@ -9,29 +9,25 @@ export default function SizeSelector() {
         <div style={{display: 'block'}}>
             <h2>Choose size of puzzle:</h2>
             <ButtonContainer>
-                <button onClick={() => resizeSudoku({subrows: 2, subcols: 3})}>
+                <button type="button" onClick={() => resizeSudoku({subrows: 2, subcols: 3})}>
                     6 numbers
                 </button>
-                <button onClick={() => resizeSudoku({subrows: 2, subcols: 4})}>
+                <button type="button" onClick={() => resizeSudoku({subrows: 2, subcols: 4})}>
                     8 numbers
                 </button>
-                <button onClick={() => resizeSudoku({subrows: 3, subcols: 3})}>
+                <button type="button" onClick={() => resizeSudoku({subrows: 3, subcols: 3})}>
                     9 (standard)
                 </button>
-                <ButtonHiddenOnVerySmall
-                onClick={() => resizeSudoku({subrows: 4, subcols: 3})}>
+                <ButtonHiddenOnVerySmall type="button" onClick={() => resizeSudoku({subrows: 4, subcols: 3})}>
                     12 numbers
                 </ButtonHiddenOnVerySmall>
-                <ButtonHiddenOnSmall
-                onClick={() => resizeSudoku({subrows: 3, subcols: 5})}>
+                <ButtonHiddenOnSmall type="button" onClick={() => resizeSudoku({subrows: 3, subcols: 5})}>
                     15 numbers
                 </ButtonHiddenOnSmall>
-                <ButtonHiddenOnSmall
-                onClick={() => resizeSudoku({subrows: 4, subcols: 4})}>
+                <ButtonHiddenOnSmall type="button" onClick={() => resizeSudoku({subrows: 4, subcols: 4})}>
                     16 numbers
                 </ButtonHiddenOnSmall>
-                <ButtonHiddenOnMedium
-                onClick={() => resizeSudoku({subrows: 4, subcols: 5})}>
+                <ButtonHiddenOnMedium type="button" onClick={() => resizeSudoku({subrows: 4, subcols: 5})}>
                     20 numbers
                 </ButtonHiddenOnMedium>
             </ButtonContainer>
