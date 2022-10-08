@@ -7,6 +7,7 @@ const SudokuProvider = (props) => {
     const [userPuzzle, setUserPuzzle] = useState([]);
     const [cellType, setCellType] = useState([]);
     const [puzzleSize, setPuzzleSize] = useState({subrows: 0, subcols: 0});
+    const [puzzleCompleted, setPuzzleCompleted] = useState(false);
     const [puzzleCreated, setPuzzleCreated] = useState(false);
     const [optionList, setOptionList] = useState([]);
     // Use -1 for no cell chosen, because index starts with 0
@@ -305,6 +306,11 @@ const SudokuProvider = (props) => {
         newPuzzle = userPuzzle;
         newPuzzle[chosenCell.index] = value;
         setUserPuzzle(newPuzzle);
+        // check if puzzle is complete (no null spaces left)
+        if(newPuzzle.every(element => element !== null)) {
+            setPuzzleCompleted(true);
+            console.log('true')
+        }
         return 'safe';
     }
 
@@ -429,6 +435,7 @@ const SudokuProvider = (props) => {
                 optionList,
                 puzzleSize,
                 puzzleCreated,
+                puzzleCompleted,
                 deselectCell,
                 resizeSudoku,
                 selectCell,
