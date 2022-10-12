@@ -39,3 +39,13 @@ background-color: var(--cell-back-color);
 border-radius: 8px;
 font-weight: bold;
 `;
+
+export const WinnerModal = styled.div`
+position: relative;
+z-index: 4;
+border: 1px solid var(--border-color);
+border-radius: 8px;
+background-color: var(--modal-back-color);
+padding: 2px;
+display: flex;
+`;
