@@ -40,12 +40,21 @@ border-radius: 8px;
 font-weight: bold;
 `;
 
+export const WinMessage = styled.div`
+margin: 17px 7px;
+padding: 7px;
+background-color: var(--cell-back-color);
+font-size: 2em;
+`;
+
 export const WinnerModal = styled.div`
 position: relative;
 z-index: 4;
 border: 1px solid var(--border-color);
 border-radius: 8px;
 background-color: var(--modal-back-color);
-padding: 2px;
+padding: 7px;
 display: flex;
+flex-direction: column;
+align-items: center;
 `;
