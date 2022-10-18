@@ -91,6 +91,13 @@ const SudokuProvider = (props) => {
         setChosenCell(cellInfo);
     }
 
+    // reset the puzzle to make a new one
+    const resetPuzzle = () => {
+        deselectCell();
+        setPuzzleCreated(false);
+        setPuzzleCompleted(false);
+    }
+
     // set up new puzzle
     const resizeSudoku = (size) => {
         const {subrows, subcols} = size;
@@ -437,6 +444,7 @@ const SudokuProvider = (props) => {
                 puzzleCreated,
                 puzzleCompleted,
                 deselectCell,
+                resetPuzzle,
                 resizeSudoku,
                 selectCell,
                 tryCellValue }}>
