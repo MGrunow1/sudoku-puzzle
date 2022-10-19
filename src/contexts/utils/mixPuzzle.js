@@ -12,6 +12,17 @@ const mixPuzzle = (puzzle, subcols, subrows) => {
                 const row2 = 1 + (bigRowNumber * subrows);
                 swapRows(row1, row2);
             }
+        } else if(subrows === 3) {
+            // sometimes swap 2 rows
+            if(Math.random() < .5) {
+                const randomRow1 = Math.floor(Math.random() * subrows) + (bigRowNumber * subrows);
+                let randomRow2 = Math.floor(Math.random() * subrows) + (bigRowNumber * subrows);
+                // choose a different second row if they're the same
+                while(randomRow1 === randomRow2) {
+                    randomRow2 = Math.floor(Math.random() * subrows) + (bigRowNumber * subrows);
+                }
+                swapRows(randomRow1, randomRow2);
+            }
         } else {
             // always choose 2 rows to swap
             const randomRow1 = Math.floor(Math.random() * subrows) + (bigRowNumber * subrows);
@@ -36,8 +47,26 @@ const mixPuzzle = (puzzle, subcols, subrows) => {
     }
     // swap random columns, to avoid the row pattern repeating
     for(let bigColNumber = 0; bigColNumber < subrows; bigColNumber++) {
-        if(subcols > 2) {
-            // choose 2 columns to swap
+        if(subcols <= 2) {
+            // if there are just 2 columns, decide randomly whether to swap
+            if(Math.random() < .6) {
+                const col1 = bigColNumber * subrows;
+                const col2 = 1 + (bigColNumber * subrows);
+                swapCols(col1, col2);
+            }
+        } else if(subcols === 3) {
+            // sometimes swap 2 columns
+            if(Math.random() < .5) {
+                const randomCol1 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
+                let randomCol2 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
+                // choose a different second row if they're the same
+                while(randomCol1 === randomCol2) {
+                    randomCol2 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
+                }
+                swapCols(randomCol1, randomCol2);
+            }
+        } else {
+            // always choose 2 columns to swap
             const randomCol1 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
             let randomCol2 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
             // choose a different second row if they're the same
