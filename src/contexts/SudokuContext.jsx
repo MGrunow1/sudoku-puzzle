@@ -1,5 +1,10 @@
 import { createContext, useState } from "react";
-import { scrambledCount } from "./utils";
+import { fillPuzzle } from "./utils/fillPuzzle";
+import { getCellCol, getCellRow } from "./utils/getCellLocation";
+import { getColIndices, getRowIndices } from "./utils/getIndices";
+import { hidingCellArray } from "./utils/hidingCellArray";
+import { mixPuzzle } from "./utils/mixPuzzle";
+import turnPuzzle from "./utils/turnPuzzle";
 
 const SudokuContext = createContext([]);
 
@@ -7,6 +12,7 @@ const SudokuProvider = (props) => {
     const [userPuzzle, setUserPuzzle] = useState([]);
     const [cellType, setCellType] = useState([]);
     const [puzzleSize, setPuzzleSize] = useState({subrows: 0, subcols: 0});
+    const [puzzleCompleted, setPuzzleCompleted] = useState(false);
     const [puzzleCreated, setPuzzleCreated] = useState(false);
     const [optionList, setOptionList] = useState([]);
     // Use -1 for no cell chosen, because index starts with 0
@@ -90,86 +96,21 @@ const SudokuProvider = (props) => {
         setChosenCell(cellInfo);
     }
 
+    // reset the puzzle to make a new one
+    const resetPuzzle = () => {
+        deselectCell();
+        setPuzzleCreated(false);
+        setPuzzleCompleted(false);
+    }
+
     // set up new puzzle
     const resizeSudoku = (size) => {
         const {subrows, subcols} = size;
         const maxNumber = subcols * subrows;
         // create the empty array
-        let newPuzzle = [];
-        // set its length to the total number of spaces
-        newPuzzle.length = maxNumber * maxNumber;
-        // create a scrambled list from 1 to the maximum number
-        let columnValues = scrambledCount(maxNumber);
-        // fill the new puzzle with values
-        for(let colNumber = 0; colNumber<maxNumber; colNumber++) {
-            const indices = getColIndices(colNumber, subcols, subrows);
-            // shift for every large block of columns, to avoid repeating
-            if(colNumber % subcols === 0) {
-                let value=columnValues.shift()
-                columnValues.push(value);
-            }
-            // put the values in the proper places
-            for(const index in indices) {
-                newPuzzle[indices[index]] = columnValues[index];
-            }
-            // shift the values for the next column
-            columnValues = columnValues.slice(subrows, maxNumber).concat(columnValues.slice(0,subrows));
-        }
-        // swap random rows, to avoid the column pattern repeating
-        for(let bigRowNumber = 0; bigRowNumber < subcols; bigRowNumber++) {
-            if(subrows <= 2) {
-                // if there are just two rows, decide randomly whether to swap
-                if(Math.random() < .6) {
-                    const row1 = bigRowNumber * subrows;
-                    const row2 = 1 + (bigRowNumber * subrows);
-                    swapRows(row1, row2);
-                }
-            } else {
-                // always choose 2 rows to swap
-                const randomRow1 = Math.floor(Math.random() * subrows) + (bigRowNumber * subrows);
-                let randomRow2 = Math.floor(Math.random() * subrows) + (bigRowNumber * subrows);
-                // choose a different second row if they're the same
-                while(randomRow1 === randomRow2) {
-                    randomRow2 = Math.floor(Math.random() * subrows) + (bigRowNumber * subrows);
-                }
-                swapRows(randomRow1, randomRow2);
-            }
-            // helper function to swap rows in the same row of subgrids
-            function swapRows(row1, row2) {
-                const rowIndices1 = getRowIndices(row1, subcols, subrows);
-                const rowIndices2 = getRowIndices(row2, subcols, subrows);
-                for(let index = 0; index<maxNumber; index++) {
-                    // swap the values
-                    const temp = newPuzzle[rowIndices1[index]];
-                    newPuzzle[rowIndices1[index]] = newPuzzle[rowIndices2[index]];
-                    newPuzzle[rowIndices2[index]] = temp;
-                }
-            }
-        }
-        // swap random columns, to avoid the row pattern repeating
-        for(let bigColNumber = 0; bigColNumber < subrows; bigColNumber++) {
-            if(subcols > 2) {
-                // choose 2 columns to swap
-                const randomCol1 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
-                let randomCol2 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
-                // choose a different second row if they're the same
-                while(randomCol1 === randomCol2) {
-                    randomCol2 = Math.floor(Math.random() * subcols) + (bigColNumber * subcols);
-                }
-                swapCols(randomCol1, randomCol2);
-            }
-            // helper function to swap columns in the same row of subgrids
-            function swapCols(col1, col2) {
-                const colIndices1 = getColIndices(col1, subcols, subrows);
-                const colIndices2 = getColIndices(col2, subcols, subrows);
-                for(let index = 0; index<maxNumber; index++) {
-                    // swap the values
-                    const temp = newPuzzle[colIndices1[index]];
-                    newPuzzle[colIndices1[index]] = newPuzzle[colIndices2[index]];
-                    newPuzzle[colIndices2[index]] = temp;
-                }
-            }
-        }
+        let newPuzzle = fillPuzzle(subcols, subrows);
+        // mix by swapping rows, and swapping columns
+        newPuzzle = mixPuzzle(newPuzzle, subcols, subrows);
         if(Math.random() < .4) {
             // rotate puzzle 90 degrees sometimes
             newPuzzle = turnPuzzle(newPuzzle, subcols, subrows);
@@ -189,61 +130,14 @@ const SudokuProvider = (props) => {
         setPuzzleCreated(true);
     }
 
-    // calculate column that a cell is in
-    const getCellCol = (index, subcols=puzzleSize.subcols, subrows=puzzleSize.subrows) => {
-        const bigCol = Math.floor(index / (subcols * subrows)) % subrows;
-        const colNumber = (index % subcols) + (bigCol * subcols);
-        return colNumber;
-    }
-
-    // calculate row that a cell is in
-    const getCellRow = (index, subcols=puzzleSize.subcols, subrows=puzzleSize.subrows) => {
-        const subGridNumber = Math.floor(index / (subcols * subrows));
-        const bigRow = Math.floor(subGridNumber / subrows);
-        const rowNumber = (Math.floor(index/subcols) % subrows) + (bigRow * subrows);
-        return rowNumber;
-    }
-
-    // get the list of index numbers for cells in a column
-    const getColIndices = (colNum, subcols=puzzleSize.subcols, subrows=puzzleSize.subrows) => {
-        const subGridSize = subcols * subrows;
-        const bigColNum = Math.floor(colNum / subcols);
-        let colStart = (colNum % subcols)
-        colStart += bigColNum * subGridSize;
-        let indexArray = [];
-        for(let bigRowIndex = 0; bigRowIndex < subcols; bigRowIndex++) {
-            for(let rowIndex = 0; rowIndex < subrows; rowIndex++) {
-                const index = colStart + (rowIndex * subcols) + (bigRowIndex * subGridSize * subrows);
-                indexArray.push(index);
-            }
-        }
-        return indexArray;
-    }
-    
-    // get the list of index numbers for cells in a row
-    const getRowIndices = (rowNum, subcols=puzzleSize.subcols, subrows=puzzleSize.subrows) => {
-        const subGridSize = subcols * subrows;
-        const bigRowNum = Math.floor(rowNum / subrows);
-        let rowStart = (rowNum % subrows) * subcols;
-        rowStart += bigRowNum * (subrows * subGridSize);
-        let indexArray = [];
-        for(let bigColIndex = 0; bigColIndex < subrows; bigColIndex++) {
-            for(let colIndex = 0; colIndex < subcols; colIndex++) {
-                const index = rowStart + colIndex + (bigColIndex * subGridSize);
-                indexArray.push(index);
-            }
-        }
-        return indexArray;
-    }
-
     const tryCellValue = (value) =>  {
         // Test for match if the input isn't blank
         if(value) {
             let rowSafe = true;
             let colSafe = true;
             let subgridSafe = true;
-            const rowNumber = getCellRow(chosenCell.index);
-            const rowIndices = getRowIndices(rowNumber);
+            const rowNumber = getCellRow(chosenCell.index, puzzleSize.subcols, puzzleSize.subrows);
+            const rowIndices = getRowIndices(rowNumber, puzzleSize.subcols, puzzleSize.subrows);
             // Loop through the row
             for(const checkRow of rowIndices) {
                 if(checkRow !== chosenCell.index && (userPuzzle[checkRow] === value)) {
@@ -256,8 +150,8 @@ const SudokuProvider = (props) => {
                 }
             }
             // Loop through the column
-            const colNumber = getCellCol(chosenCell.index);
-            const colIndices = getColIndices(colNumber);
+            const colNumber = getCellCol(chosenCell.index, puzzleSize.subcols, puzzleSize.subrows);
+            const colIndices = getColIndices(colNumber, puzzleSize.subcols, puzzleSize.subrows);
             for (const checkCol of colIndices) {
                 if(checkCol !== chosenCell.index && (userPuzzle[checkCol] === value)) {
                     colSafe = false;
@@ -305,120 +199,25 @@ const SudokuProvider = (props) => {
         newPuzzle = userPuzzle;
         newPuzzle[chosenCell.index] = value;
         setUserPuzzle(newPuzzle);
+        // check if puzzle is complete (no null spaces left)
+        if(newPuzzle.every(element => element !== null)) {
+            setPuzzleCompleted(true);
+        }
         return 'safe';
     }
 
     const hideCells = (puzzle, subcols, subrows) => {
-        const maxNumber = subcols * subrows;
-        // Create the empty array
-        let newCellArray = [];
-        // Set its length to the total number of spaces
-        newCellArray.length = maxNumber * maxNumber;
-        newCellArray.fill('unset');
-        // Set the initial cell, randomly
-        if(Math.random() < .6) {
-            newCellArray[0] = 'hidden';
-        } else {
-            newCellArray[0] = 'clue'
-        }
-        /* Loop through the array in a random order, to avoid
-         having empty spaces bunched at the starting point */
-        const scrambledIndices = scrambledCount(newCellArray.length);
-        for(const index of scrambledIndices) {
-            // Set only if it's not already set
-            if(newCellArray[index] === 'unset') {
-                const value = puzzle[index];
-                const rowNumber = getCellRow(index, subcols, subrows);
-                const rowIndices = getRowIndices(rowNumber, subcols, subrows);
-                let neededForRow = false;
-                let neededForCol = false;
-                // Loop through space in the row
-                for (const checkRow of rowIndices) {
-                    const colNumber = getCellCol(checkRow, subcols, subrows);
-                    const colIndices = getColIndices(colNumber, subcols, subrows);
-                    if(checkRow !== index && (newCellArray[checkRow] === 'hidden')) {
-                        let isSafe = false;
-                        /* Check the column for each space in the
-                        row, to see if another space keeps the value
-                        from being there instead */
-                        for (const checkCol of colIndices) {
-                            if((newCellArray[checkCol] !== 'hidden')
-                             && (puzzle[checkCol] === value)
-                             && (checkCol !== index)) {
-                                isSafe = true;
-                            }
-                        }
-                        if(isSafe === false) {
-                            neededForRow = true;
-                        }
-                        // for smaller puzzles, hide more cells
-                        if((maxNumber < 10) && neededForRow) {
-                            const colNumber2 = getCellCol(index, subcols, subrows);
-                            const colIndices2 = getColIndices(colNumber2, subcols, subrows);
-                            // Loop through space in the column
-                            for (const checkCol of colIndices2) {
-                                const rowNumber2 = getCellRow(checkCol, subcols, subrows);
-                                const rowIndices2 = getRowIndices(rowNumber2, subcols, subrows);
-                                if(checkRow !== index && (newCellArray[checkCol] === 'hidden')) {
-                                    let isSafe = false;
-                                    /* Check the column for each space in the
-                                    row, to see if another space keeps the value
-                                    from being there instead */
-                                    for (const checkRow of rowIndices2) {
-                                        if((newCellArray[checkRow] !== 'hidden')
-                                         && (puzzle[checkRow] === value)
-                                         && (checkRow !== index)) {
-                                            isSafe = true;
-                                        }
-                                    }
-                                    if(isSafe === false) {
-                                        neededForCol = true;
-                                    }
-                                }
-                            }
-                        } else {
-                            /* Assume needed for column for
-                            large puzzles. It's ok if not
-                            needed for row, then it will
-                            still be hidden. */
-                            neededForCol = true;
-                        }
-                    }
-                }
-                // Decide on cell type
-                if(neededForRow && neededForCol) {
-                    newCellArray[index] = 'clue';
-                } else {
-                    newCellArray[index] = 'hidden';
-                }
+        // create the array of cell types
+        let newCellArray = hidingCellArray(puzzle, subcols, subrows);
+        
+        // remove hidden cells
+        for(let index=0;index<puzzle.length;index++) {
+            if(newCellArray[index] === 'hidden') {
+                puzzle[index] = null;
             }
         }
-    // remove hidden cells
-    for(let index=0;index<puzzle.length;index++) {
-        if(newCellArray[index] === 'hidden') {
-            puzzle[index] = null;
-        }
-    }
-    setCellType(newCellArray);
-    setUserPuzzle(puzzle);
-    }
-
-    const turnPuzzle = (puzzle, subcols, subrows) => {
-        const maxNumber = subcols * subrows;
-        // Create the empty array
-        let turnedArray = [];
-        turnedArray.length = puzzle.length;
-        // Loop through the list of columns
-        for(let loop=0;loop<maxNumber;loop++) {
-            const colIndices = getColIndices(loop, subcols, subrows);
-            const rowIndices = getRowIndices(loop, subrows, subcols);
-            // take values from columns, put into rows
-            for(let index=0;index<maxNumber;index++) {
-                const value = puzzle[colIndices[index]];
-                turnedArray[rowIndices[index]] = value;
-            }
-        }
-        return turnedArray;
+        setCellType(newCellArray);
+        setUserPuzzle(puzzle);
     }
     
     return (
@@ -429,7 +228,9 @@ const SudokuProvider = (props) => {
                 optionList,
                 puzzleSize,
                 puzzleCreated,
+                puzzleCompleted,
                 deselectCell,
+                resetPuzzle,
                 resizeSudoku,
                 selectCell,
                 tryCellValue }}>
