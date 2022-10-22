@@ -7,5 +7,6 @@ Hello World😊. Welcome to my Sudoku puzzle.
 </p>
 
 ---
-Updated September 26, 2022
-The app currently displays Sudoku puzzles, but is not yet playable on-screen.
+Updated October 21, 2022
+App created with React
+generates Sudoku puzzles that are playable on-screen
