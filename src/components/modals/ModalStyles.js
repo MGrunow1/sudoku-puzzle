@@ -4,12 +4,14 @@ export const ChoiceButton = styled.button`
 margin: 3px;
 padding: 5px;
 min-width: 30px;
+color: var(--fore-color);
 `;
 
 export const CloseButton = styled.button`
 margin: 3px;
 padding: 5px 40px;
 min-width: 30px;
+color: var(--fore-color);
 `;
 
 export const ModalBackground = styled.div`
