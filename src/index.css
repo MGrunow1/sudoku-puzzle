@@ -44,16 +44,16 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
+  color: var(--fore-color);
   background-color: var(--cell-back-color);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #dfcd80;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+button:active {
+  border-color: #dfcd80;
 }
 
 @media (prefers-color-scheme: light) {
@@ -64,7 +64,7 @@ button:focus-visible {
     --fore-color: black;
     --border-color: black;
   }
-  button:hover {
+  button:active {
     /* keep border color dark when in light mode */
     border-color: black;
     /* lighter version of app background */
