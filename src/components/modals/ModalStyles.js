@@ -3,14 +3,16 @@ import styled from "styled-components";
 export const ChoiceButton = styled.button`
 margin: 3px;
 padding: 5px;
-min-width: 30px;
+min-width: 39px;
+min-height: 39px;
 color: var(--fore-color);
 `;
 
 export const CloseButton = styled.button`
 margin: 3px;
 padding: 5px 40px;
-min-width: 30px;
+min-width: 40px;
+min-height: 40px;
 color: var(--fore-color);
 `;
 
