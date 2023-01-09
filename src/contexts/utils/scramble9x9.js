@@ -50,8 +50,31 @@ const scramble9x9 = (puzzle) => {
 
 // helper function to choose a random scramble pattern
 function chooseType() {
-    // TODO: add more scramble patterns
-    let scrambleArray = ["abc", "acb", "abc", "bca", "bac", "bca", "cab", "cba", "cab"];
+    let scrambleArray = [];
+    switch(Math.floor(Math.random() * 6)) {
+        case 0:
+            scrambleArray = ["abc", "acb", "abc", "bca", "bac", "bca", "cab", "cba", "cab"];
+            break;
+        case 1:
+            scrambleArray = ["abc", "acb", "acb", "bca", "bac", "bac", "cab", "cba", "cba"];
+            break;
+        case 2:
+            scrambleArray = ["abc", "acb", "cba", "bca", "cab", "acb", "cab", "abc", "cab"];
+            break;
+        case 3:
+            scrambleArray = ["abc", "bca", "cab", "bca", "cab", "abc", "bac", "acb", "cba"]
+            break;
+        case 4:
+            scrambleArray = ["abc", "cab", "acb", "cba", "abc", "bac", "acb", "cba", "cba"];;
+            break;
+        case 5:
+            scrambleArray = ["abc", "cab", "bac", "cba", "abc", "bca", "acb", "bca", "cab"];
+            break;
+        default:
+            // leave pattern alone
+            scrambleArray = ["abc", "abc", "abc", "abc", "abc", "abc", "abc", "abc", "abc"];
+    }
+
     return scrambleArray;
 }
 
