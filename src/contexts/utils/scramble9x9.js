@@ -3,49 +3,63 @@ import { getRowIndices } from "./getIndices";
 const scramble9x9 = (puzzle) => {
     let newPuzzle = puzzle;
     const scramblePattern = chooseType();
-    const bigRowNumber = Math.floor(Math.random() * 3) * 3;
-    const row0 = getRowIndices(bigRowNumber, 3, 3);
-    const row1 = getRowIndices(bigRowNumber + 1, 3, 3);
-    const row2 = getRowIndices(bigRowNumber + 2, 3, 3);
+    const bigRowNumber1 = Math.floor(Math.random() * 3) * 3;
+    let row0 = getRowIndices(bigRowNumber1, 3, 3);
+    let row1 = getRowIndices(bigRowNumber1 + 1, 3, 3);
+    let row2 = getRowIndices(bigRowNumber1 + 2, 3, 3);
+    mixRows(row0, row1, row2);
+    
+    let bigRowNumber2 = Math.floor(Math.random() * 3) * 3;
+    // choose a different second row if they're the same
+    while(bigRowNumber1 === bigRowNumber2) {
+        bigRowNumber2 = Math.floor(Math.random() * 3) * 3;
+    }
+    row0 = getRowIndices(bigRowNumber2, 3, 3);
+    row1 = getRowIndices(bigRowNumber2 + 1, 3, 3);
+    row2 = getRowIndices(bigRowNumber2 + 2, 3, 3);
+    mixRows(row0, row1, row2);
 
-    // swap along each column, by pattern
-    // skip first column, which is left alone initially
-    for(let colIndex = 1; colIndex < 9; colIndex++) {
-        switch (scramblePattern[colIndex]) {
-            case "acb":
-                const acbSwap = newPuzzle[row1[colIndex]];
-                newPuzzle[row1[colIndex]] = newPuzzle[row2[colIndex]];
-                newPuzzle[row2[colIndex]] = acbSwap;
-                break;
-            case "bac":
-                const bacSwap = newPuzzle[row0[colIndex]];
-                newPuzzle[row0[colIndex]] = newPuzzle[row1[colIndex]];
-                newPuzzle[row1[colIndex]] = bacSwap;
-                break;
-            case "bca":
-                const bcaSwap = newPuzzle[row0[colIndex]];
-                newPuzzle[row0[colIndex]] = newPuzzle[row1[colIndex]];
-                newPuzzle[row1[colIndex]] = newPuzzle[row2[colIndex]];
-                newPuzzle[row2[colIndex]] = bcaSwap;
-                break;
-            case "cab":
-                const cabSwap = newPuzzle[row0[colIndex]];
-                newPuzzle[row0[colIndex]] = newPuzzle[row2[colIndex]];
-                newPuzzle[row2[colIndex]] = newPuzzle[row1[colIndex]];
-                newPuzzle[row1[colIndex]] = cabSwap;
-                break;
-            case "cba":
-                const cbaSwap = newPuzzle[row0[colIndex]];
-                newPuzzle[row0[colIndex]] = newPuzzle[row2[colIndex]];
-                newPuzzle[row2[colIndex]] = cbaSwap;
-                break;
-            case "abc":
-            default: // includes "abc"
-            // leave alone
-                break;
+    // helper function to mix rows based on pattern
+    function mixRows(row0, row1, row2) {
+        // swap along each column, by pattern
+        // skip first column, which is left alone initially
+        for(let colIndex = 1; colIndex < 9; colIndex++) {
+            switch (scramblePattern[colIndex]) {
+                case "acb":
+                    const acbSwap = newPuzzle[row1[colIndex]];
+                    newPuzzle[row1[colIndex]] = newPuzzle[row2[colIndex]];
+                    newPuzzle[row2[colIndex]] = acbSwap;
+                    break;
+                case "bac":
+                    const bacSwap = newPuzzle[row0[colIndex]];
+                    newPuzzle[row0[colIndex]] = newPuzzle[row1[colIndex]];
+                    newPuzzle[row1[colIndex]] = bacSwap;
+                    break;
+                case "bca":
+                    const bcaSwap = newPuzzle[row0[colIndex]];
+                    newPuzzle[row0[colIndex]] = newPuzzle[row1[colIndex]];
+                    newPuzzle[row1[colIndex]] = newPuzzle[row2[colIndex]];
+                    newPuzzle[row2[colIndex]] = bcaSwap;
+                    break;
+                case "cab":
+                    const cabSwap = newPuzzle[row0[colIndex]];
+                    newPuzzle[row0[colIndex]] = newPuzzle[row2[colIndex]];
+                    newPuzzle[row2[colIndex]] = newPuzzle[row1[colIndex]];
+                    newPuzzle[row1[colIndex]] = cabSwap;
+                    break;
+                case "cba":
+                    const cbaSwap = newPuzzle[row0[colIndex]];
+                    newPuzzle[row0[colIndex]] = newPuzzle[row2[colIndex]];
+                    newPuzzle[row2[colIndex]] = cbaSwap;
+                    break;
+                case "abc":
+                default: // includes "abc"
+                // leave alone
+                    break;
+            }
         }
     }
-
+    
     return newPuzzle;
 }
 
