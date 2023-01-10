@@ -9,7 +9,8 @@ const scramble9x9 = (puzzle) => {
     const row2 = getRowIndices(bigRowNumber + 2, 3, 3);
 
     // swap along each column, by pattern
-    for(let colIndex = 0; colIndex < 9; colIndex++) {
+    // skip first column, which is left alone initially
+    for(let colIndex = 1; colIndex < 9; colIndex++) {
         switch (scramblePattern[colIndex]) {
             case "acb":
                 const acbSwap = newPuzzle[row1[colIndex]];
