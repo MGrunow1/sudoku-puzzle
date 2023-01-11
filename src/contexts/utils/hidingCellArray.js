@@ -86,8 +86,25 @@ const hidingCellArray = (puzzle, subcols, subrows) => {
             }
         }
     }
+    // make sure that each subgrid has at least one empty space
+    for(let subGridIndex = 0; subGridIndex < maxNumber; subGridIndex++) {
+        const subGridStart = subGridIndex * maxNumber;
+        let allFilled = true;
+        // loop through cells in subgrid
+        for(let checkCell = subGridStart; checkCell < (subGridStart + maxNumber - 1); checkCell++) {
+            // if a cell is hidden, then not all are filled
+            if(newCellArray[checkCell] === 'hidden') {
+                allFilled = false;
+                break;
+            }
+        }
+        if(allFilled) {
+            // pick a random cell in the subgrid
+            const index = Math.floor(Math.random() * maxNumber) + subGridStart;
+            newCellArray[index] = 'hidden';
+        }
+    }
     return newCellArray;
 }
-    
 
 export { hidingCellArray }
