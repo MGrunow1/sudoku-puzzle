@@ -21,7 +21,7 @@ export default function SizeSelector() {
                 <ButtonHiddenOnVerySmall type="button" onClick={() => resizeSudoku({subrows: 4, subcols: 3})}>
                     12 numbers
                 </ButtonHiddenOnVerySmall>
-                <ButtonHiddenOnSmall type="button" onClick={() => resizeSudoku({subrows: 3, subcols: 5})}>
+                <ButtonHiddenOnSmall type="button" onClick={() => resizeSudoku({subrows: 5, subcols: 3})}>
                     15 numbers
                 </ButtonHiddenOnSmall>
                 <ButtonHiddenOnSmall type="button" onClick={() => resizeSudoku({subrows: 4, subcols: 4})}>

@@ -51,6 +51,36 @@ const randomPattern = (subcols, subrows) => {
                 // leave pattern alone
                 scrambleArray = ["abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd"];
         }
+    } else if(subcols === 3 && subrows === 5) {
+        switch(Math.floor(Math.random() * 8)) {
+            case 0:
+                scrambleArray = ["abcde", "adbce", "becda", "adebc", "bdeca", "dbcae", "cdbea", "caedb", "bdeca", "dabce", "ecabd", "eacdb", "ecdab", "bcade", "edabc"];
+                break;
+            case 1:
+                scrambleArray = ["abcde", "aebcd", "bdcea", "aedbc", "ebcda", "cdeab", "cbdea", "adebc", "caebd", "dbace", "eabcd", "ecadb", "ecdab", "acbde", "edabc"];
+                break;
+            case 2:
+                scrambleArray = ["abcde", "baecd", "cabed", "bcdea", "cabed", "acdbe", "badce", "abdce", "eabdc", "beadc", "cbade", "abcde", "baced", "acdeb", "abcde"];
+                break;
+            case 3:
+                scrambleArray = ["abcde", "cbaed", "bcade", "cdaeb", "dcabe", "daceb", "dabce", "dabec", "ebacd", "baedc", "acbed", "abced", "cbaed", "dacbe", "dbace"];
+                break;
+            case 4:
+                scrambleArray = ["abcde", "dabce", "beadc", "ecadb", "bacde", "cabed", "bacde", "cbade", "eabcd", "beadc", "ecbda", "baced", "cabed", "bacde", "dbace"];
+                break;
+            case 5:
+                scrambleArray = ["abcde", "dcbae", "decba", "bdeac", "bceda", "acedb", "edbca", "decab", "caebd", "cabde", "bcaed", "dcaeb", "acdeb", "dacbe", "edabc"];
+                break;
+            case 6:
+                scrambleArray = ["abcde", "ebdac", "edbac", "aecdb", "aebcd", "bdcae", "dbcae", "aedcb", "bacde", "becda", "dabec", "ecdba", "eacdb", "badec", "edbca"];
+                break;
+            case 7:
+                scrambleArray = ["abcde", "ecbda", "bcdea", "adebc", "becda", "dceab", "cdbea", "bedac", "bcade", "dabce", "eabcd", "ecdab", "bcdae", "bacde", "edacb"
+            ];
+                break;
+            default:
+                // leave pattern alone
+        }
     }
 
     return scrambleArray;
