@@ -1,16 +1,11 @@
 import { getColIndices, getRowIndices } from "./getIndices";
 import { rowMixer } from "./rowMixer";
-import { scramble9x9 } from "./scramble9x9";
 
 const mixPuzzle = (puzzle, subcols, subrows) => {
     const maxNumber = subcols * subrows;
     let newPuzzle = puzzle;
-    // if a 9x9 grid, do extra scrambling
-    if(subcols === 3 && subrows === 3) {
-        newPuzzle = scramble9x9(newPuzzle);
-    } else {
-        newPuzzle = rowMixer(newPuzzle, subcols, subrows);
-    }
+    // do extra scrambling
+    newPuzzle = rowMixer(newPuzzle, subcols, subrows);
 
     // swap random rows, to avoid the column pattern repeating
     for(let bigRowNumber = 0; bigRowNumber < subcols; bigRowNumber++) {

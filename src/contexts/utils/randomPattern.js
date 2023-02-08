@@ -3,7 +3,31 @@
 
 const randomPattern = (subcols, subrows) => {
     let scrambleArray = [];
-    if(subcols === 3 && subrows === 4) {
+    if(subcols === 3 && subrows === 3) {
+        switch(Math.floor(Math.random() * 6)) {
+            case 0:
+                scrambleArray = ["abc", "acb", "abc", "bca", "bac", "bca", "cab", "cba", "cab"];
+                break;
+            case 1:
+                scrambleArray = ["abc", "acb", "acb", "bca", "bac", "bac", "cab", "cba", "cba"];
+                break;
+            case 2:
+                scrambleArray = ["abc", "acb", "cba", "bca", "cab", "acb", "cab", "abc", "cab"];
+                break;
+            case 3:
+                scrambleArray = ["abc", "bca", "cab", "bca", "cab", "abc", "bac", "acb", "cba"]
+                break;
+            case 4:
+                scrambleArray = ["abc", "cab", "acb", "cba", "abc", "bac", "acb", "cba", "cba"];;
+                break;
+            case 5:
+                scrambleArray = ["abc", "cab", "bac", "cba", "abc", "bca", "acb", "bca", "cab"];
+                break;
+            default:
+                // leave pattern alone
+                scrambleArray = ["abc", "abc", "abc", "abc", "abc", "abc", "abc", "abc", "abc"];
+        }
+    } else if(subcols === 3 && subrows === 4) {
         switch(Math.floor(Math.random() * 14)) {
             case 0:
                 scrambleArray = ["abcd", "abcd", "bdca", "adcb", "cbda", "badc", "badc", "acbd", "badc", "cabd", "bacd", "dbac"];
