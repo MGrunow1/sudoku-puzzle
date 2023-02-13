@@ -3,7 +3,21 @@
 
 const randomPattern = (subcols, subrows) => {
     let scrambleArray = [];
-    if(subcols === 3 && subrows === 3) {
+    if(subcols === 2 && subrows === 3) {
+        switch(Math.floor(Math.random() * 3)) {
+            case 0:
+                scrambleArray = ["abc", "bca", "bca", "bac", "bac", "cba"];
+                break;
+            case 1:
+                scrambleArray = ["abc", "bca", "cba", "bac", "abc", "cba"];
+                break;
+            case 2:
+                scrambleArray = ["abc", "cab", "cba", "abc", "acb", "cba"];
+                break;
+            default:
+                // leave pattern alone
+        }
+    } else if(subcols === 3 && subrows === 3) {
         switch(Math.floor(Math.random() * 6)) {
             case 0:
                 scrambleArray = ["abc", "acb", "abc", "bca", "bac", "bca", "cab", "cba", "cab"];

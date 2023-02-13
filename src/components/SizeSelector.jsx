@@ -9,7 +9,7 @@ export default function SizeSelector() {
         <div style={{display: 'block'}}>
             <h2>Choose size of puzzle:</h2>
             <ButtonContainer>
-                <button type="button" onClick={() => resizeSudoku({subrows: 2, subcols: 3})}>
+                <button type="button" onClick={() => resizeSudoku({subrows: 3, subcols: 2})}>
                     6 numbers
                 </button>
                 <button type="button" onClick={() => resizeSudoku({subrows: 2, subcols: 4})}>
