@@ -31,10 +31,10 @@ const randomPattern = (subcols, subrows) => {
                 scrambleArray = ["abc", "acb", "cba", "bca", "cab", "acb", "cab", "abc", "cab"];
                 break;
             case 3:
-                scrambleArray = ["abc", "bca", "cab", "bca", "cab", "abc", "bac", "acb", "cba"]
+                scrambleArray = ["abc", "bca", "cab", "bca", "cab", "abc", "bac", "acb", "cba"];
                 break;
             case 4:
-                scrambleArray = ["abc", "cab", "acb", "cba", "abc", "bac", "acb", "cba", "cba"];;
+                scrambleArray = ["abc", "cab", "acb", "cba", "abc", "bac", "acb", "cba", "cba"];
                 break;
             case 5:
                 scrambleArray = ["abc", "cab", "bac", "cba", "abc", "bca", "acb", "bca", "cab"];
@@ -117,8 +117,7 @@ const randomPattern = (subcols, subrows) => {
                 scrambleArray = ["abcde", "ebdac", "edbac", "aecdb", "aebcd", "bdcae", "dbcae", "aedcb", "bacde", "becda", "dabec", "ecdba", "eacdb", "badec", "edbca"];
                 break;
             case 7:
-                scrambleArray = ["abcde", "ecbda", "bcdea", "adebc", "becda", "dceab", "cdbea", "bedac", "bcade", "dabce", "eabcd", "ecdab", "bcdae", "bacde", "edacb"
-            ];
+                scrambleArray = ["abcde", "ecbda", "bcdea", "adebc", "becda", "dceab", "cdbea", "bedac", "bcade", "dabce", "eabcd", "ecdab", "bcdae", "bacde", "edacb"];
                 break;
             default:
                 // leave pattern alone
