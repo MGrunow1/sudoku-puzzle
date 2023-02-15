@@ -54,8 +54,8 @@ const mixPuzzle = (puzzle, subcols, subrows) => {
         if(subcols <= 2) {
             // if there are just 2 columns, decide randomly whether to swap
             if(Math.random() < .6) {
-                const col1 = bigColNumber * subrows;
-                const col2 = 1 + (bigColNumber * subrows);
+                const col1 = bigColNumber * subcols;
+                const col2 = 1 + (bigColNumber * subcols);
                 swapCols(col1, col2);
             }
         } else if(subcols === 3) {

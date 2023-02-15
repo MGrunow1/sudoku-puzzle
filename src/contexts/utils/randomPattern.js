@@ -1,10 +1,26 @@
-// import { getRowIndices } from "./getIndices";
-// import { shuffleRowsByPattern } from "./shuffleRowsByPattern";
-
+// choose random pattern for scrambling
+// order of letters in each part of array is order of columns in row
+// these patterns are ones that avoid copying two duplicates into the same column
 const randomPattern = (subcols, subrows) => {
     let scrambleArray = [];
-    if(subcols === 3 && subrows === 3) {
+    if(subcols === 2 && subrows === 3) {
+        // patterns for size 6
+        switch(Math.floor(Math.random() * 3)) {
+            case 0:
+                scrambleArray = ["abc", "bca", "bca", "bac", "bac", "cba"];
+                break;
+            case 1:
+                scrambleArray = ["abc", "bca", "cba", "bac", "abc", "cba"];
+                break;
+            case 2:
+                scrambleArray = ["abc", "cab", "cba", "abc", "acb", "cba"];
+                break;
+            default:
+                // leave pattern alone
+        }
+    } else if(subcols === 3 && subrows === 3) {
         switch(Math.floor(Math.random() * 6)) {
+            // patterns for size 9
             case 0:
                 scrambleArray = ["abc", "acb", "abc", "bca", "bac", "bca", "cab", "cba", "cab"];
                 break;
@@ -15,19 +31,19 @@ const randomPattern = (subcols, subrows) => {
                 scrambleArray = ["abc", "acb", "cba", "bca", "cab", "acb", "cab", "abc", "cab"];
                 break;
             case 3:
-                scrambleArray = ["abc", "bca", "cab", "bca", "cab", "abc", "bac", "acb", "cba"]
+                scrambleArray = ["abc", "bca", "cab", "bca", "cab", "abc", "bac", "acb", "cba"];
                 break;
             case 4:
-                scrambleArray = ["abc", "cab", "acb", "cba", "abc", "bac", "acb", "cba", "cba"];;
+                scrambleArray = ["abc", "cab", "acb", "cba", "abc", "bac", "acb", "cba", "cba"];
                 break;
             case 5:
                 scrambleArray = ["abc", "cab", "bac", "cba", "abc", "bca", "acb", "bca", "cab"];
                 break;
             default:
                 // leave pattern alone
-                scrambleArray = ["abc", "abc", "abc", "abc", "abc", "abc", "abc", "abc", "abc"];
         }
     } else if(subcols === 3 && subrows === 4) {
+        // patterns for size 12
         switch(Math.floor(Math.random() * 14)) {
             case 0:
                 scrambleArray = ["abcd", "abcd", "bdca", "adcb", "cbda", "badc", "badc", "acbd", "badc", "cabd", "bacd", "dbac"];
@@ -73,9 +89,9 @@ const randomPattern = (subcols, subrows) => {
                 break;
             default:
                 // leave pattern alone
-                scrambleArray = ["abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd"];
         }
     } else if(subcols === 3 && subrows === 5) {
+        // patterns for size 15
         switch(Math.floor(Math.random() * 8)) {
             case 0:
                 scrambleArray = ["abcde", "adbce", "becda", "adebc", "bdeca", "dbcae", "cdbea", "caedb", "bdeca", "dabce", "ecabd", "eacdb", "ecdab", "bcade", "edabc"];
@@ -99,8 +115,7 @@ const randomPattern = (subcols, subrows) => {
                 scrambleArray = ["abcde", "ebdac", "edbac", "aecdb", "aebcd", "bdcae", "dbcae", "aedcb", "bacde", "becda", "dabec", "ecdba", "eacdb", "badec", "edbca"];
                 break;
             case 7:
-                scrambleArray = ["abcde", "ecbda", "bcdea", "adebc", "becda", "dceab", "cdbea", "bedac", "bcade", "dabce", "eabcd", "ecdab", "bcdae", "bacde", "edacb"
-            ];
+                scrambleArray = ["abcde", "ecbda", "bcdea", "adebc", "becda", "dceab", "cdbea", "bedac", "bcade", "dabce", "eabcd", "ecdab", "bcdae", "bacde", "edacb"];
                 break;
             default:
                 // leave pattern alone
