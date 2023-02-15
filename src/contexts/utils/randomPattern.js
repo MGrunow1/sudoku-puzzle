@@ -41,7 +41,6 @@ const randomPattern = (subcols, subrows) => {
                 break;
             default:
                 // leave pattern alone
-                scrambleArray = ["abc", "abc", "abc", "abc", "abc", "abc", "abc", "abc", "abc"];
         }
     } else if(subcols === 3 && subrows === 4) {
         // patterns for size 12
@@ -90,7 +89,6 @@ const randomPattern = (subcols, subrows) => {
                 break;
             default:
                 // leave pattern alone
-                scrambleArray = ["abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd", "abcd"];
         }
     } else if(subcols === 3 && subrows === 5) {
         // patterns for size 15
