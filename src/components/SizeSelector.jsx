@@ -12,7 +12,7 @@ export default function SizeSelector() {
                 <button type="button" onClick={() => resizeSudoku({subrows: 3, subcols: 2})}>
                     6 numbers
                 </button>
-                <button type="button" onClick={() => resizeSudoku({subrows: 2, subcols: 4})}>
+                <button type="button" onClick={() => resizeSudoku({subrows: 4, subcols: 2})}>
                     8 numbers
                 </button>
                 <button type="button" onClick={() => resizeSudoku({subrows: 3, subcols: 3})}>

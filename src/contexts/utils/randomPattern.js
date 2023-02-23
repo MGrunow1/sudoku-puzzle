@@ -18,6 +18,30 @@ const randomPattern = (subcols, subrows) => {
             default:
                 // leave pattern alone
         }
+    } else if(subcols === 2 && subrows === 4) {
+        // patterns for size 8
+        switch(Math.floor(Math.random() * 6)) {
+            case 0:
+                scrambleArray = ["abcd", "acdb", "acdb", "cabd", "badc", "acdb", "cbad", "dabc"];
+                break;
+            case 1:
+                scrambleArray = ["abcd", "bcad", "dcab", "cabd", "badc", "dcba", "dbac", "dabc"];
+                break;
+            case 2:
+                scrambleArray = ["abcd", "cadb", "dbca", "acbd", "abdc", "dacb", "acbd", "abcd"];
+                break;
+            case 3:
+                scrambleArray = ["abcd", "dacb", "acdb", "abcd", "badc", "abcd", "bcad", "dbca"];
+                break;
+            case 4:
+                scrambleArray = ["abcd", "dacb", "cbad", "bdac", "dbca", "dabc", "bcad", "dabc"];
+                break;
+            case 5:
+                scrambleArray = ["abcd", "dcab", "cdab", "acbd", "abdc", "acbd", "bcad", "cdba"];
+                break;
+            default:
+                // leave pattern alone
+        }
     } else if(subcols === 3 && subrows === 3) {
         switch(Math.floor(Math.random() * 6)) {
             // patterns for size 9
