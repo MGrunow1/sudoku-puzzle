@@ -144,6 +144,36 @@ const randomPattern = (subcols, subrows) => {
             default:
                 // leave pattern alone
         }
+    } else if(subcols === 4 && subrows === 4) {
+        // patterns for size 16
+        switch(Math.floor(Math.random() * 8)) {
+            case 0:
+                scrambleArray = ["abcd", "abcd", "acbd", "bdac", "bcad", "cdab", "bdca", "bdac", "dcba", "adbc", "bdac", "dabc", "adbc", "cabd", "badc", "adbc"];
+                break;
+            case 1:
+                scrambleArray = ["abcd", "abdc", "acdb", "bacd", "bcda", "cdba", "bcad", "bcda", "dcba", "adcb", "bdca", "dcba", "adcb", "cadb", "bdca", "adcb"];
+                break;
+            case 2:
+                scrambleArray = ["abcd", "bcad", "acbd", "cdab", "cdab", "cdba", "bdca", "adbc", "abdc", "adbc", "bdac", "dabc", "bcad", "cabd", "bacd", "adbc"];
+                break;
+            case 3:
+                scrambleArray = ["abcd", "bcda", "abdc", "cbad", "cbda", "cabd", "dbac", "abcd", "acbd", "abcd", "abdc", "dbca", "bacd", "cbda", "abdc", "abcd"];
+                break;
+            case 4:
+                scrambleArray = ["abcd", "bdca", "dbca", "cdba", "bdca", "cbda", "adcb", "adcb", "bdca", "acdb", "abcd", "dacb", "bacd", "bdac", "bcda", "adcb"];
+                break;
+            case 5:
+                scrambleArray = ["abcd", "cabd", "acbd", "cdab", "bcad", "acdb", "dcba", "adbc", "cdba", "bdac", "adbc", "bacd", "adbc", "cbad", "abcd", "cdab"];
+                break;
+            case 6:
+                scrambleArray = ["abcd", "dabc", "bcad", "bcad", "bcad", "acbd", "dcba", "cdab", "cdba", "acdb", "acbd", "abcd", "adbc", "bcad", "acdb", "cdab"];
+                break;
+            case 7:
+                scrambleArray = ["abcd", "dbac", "bacd", "cadb", "abcd", "abdc", "dbca", "abdc", "cbda", "adbc", "abdc", "bcad", "abdc", "bacd", "acbd", "dacb"];
+                break;
+            default:
+                    // leave pattern alone
+        }
     }
 
     return scrambleArray;
