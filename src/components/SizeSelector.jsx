@@ -27,7 +27,7 @@ export default function SizeSelector() {
                 <ButtonHiddenOnSmall type="button" onClick={() => resizeSudoku({subrows: 4, subcols: 4})}>
                     16 numbers
                 </ButtonHiddenOnSmall>
-                <ButtonHiddenOnMedium type="button" onClick={() => resizeSudoku({subrows: 4, subcols: 5})}>
+                <ButtonHiddenOnMedium type="button" onClick={() => resizeSudoku({subrows: 5, subcols: 4})}>
                     20 numbers
                 </ButtonHiddenOnMedium>
             </ButtonContainer>
